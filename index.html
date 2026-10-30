@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Exoskeleton | Entrepreneurship & Commercialization Proposal - LPU</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js r128 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        space: '#07090e',
+                        card: '#0f141f',
+                        cardHover: '#161f30',
+                        cyanAccent: '#00f0ff',
+                        amberAccent: '#f59e0b',
+                        crimsonAccent: '#ef4444',
+                        emeraldAccent: '#10b981'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #07090e;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        /* Blueprint Grid Background */
+        .bg-grid-pattern {
+            background-size: 32px 32px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+        }
+        .bg-blueprint {
+            background-color: #081226;
+            background-size: 20px 20px;
+            background-image:
+                linear-gradient(to right, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+        }
+        .glass-panel {
+            background: rgba(15, 20, 31, 0.82);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.05);
+            border-color: rgba(0, 240, 255, 0.4);
+        }
+        .neon-border-amber {
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.15), inset 0 0 15px rgba(245, 158, 11, 0.05);
+            border-color: rgba(245, 158, 11, 0.4);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07090e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff;
+        }
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            height: 6px;
+            border-radius: 3px;
+            background: #1e293b;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #00f0ff;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px #00f0ff;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        .animate-glow {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-grid-pattern font-sans antialiased selection:bg-cyanAccent selection:text-space">
+
+    <!-- STICKY TOP NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyanAccent/20 to-amberAccent/20 border border-cyanAccent/50 flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+                    <i class="fa-solid fa-robot text-cyanAccent text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-bold text-white tracking-wider text-base">HYBRID<span class="text-cyanAccent">EXO</span></span>
+                        <span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-amberAccent/20 text-amberAccent border border-amberAccent/40">LPU IPR</span>
+                    </div>
+                    <p class="text-[11px] font-mono text-slate-400">UID: 12629441 // Maninder Singh</p>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden xl:flex items-center gap-6 text-xs font-mono uppercase tracking-wider text-slate-300">
+                <a href="#overview" class="hover:text-cyanAccent transition">01.Overview</a>
+                <a href="#problem" class="hover:text-cyanAccent transition">02.Problem</a>
+                <a href="#usp" class="hover:text-cyanAccent transition">03.Patent USP</a>
+                <a href="#neuro-pipeline" class="hover:text-cyanAccent transition">04.Neuro-Sim</a>
+                <a href="#subsystems" class="hover:text-cyanAccent transition">05.CAD & Specs</a>
+                <a href="#market" class="hover:text-cyanAccent transition">06.Market</a>
+                <a href="#roadmap" class="hover:text-cyanAccent transition">07.Roadmap</a>
+                <a href="#inventor" class="hover:text-cyanAccent transition">09.Inventor</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3">
+                <button id="telemetryToggleBtn" onclick="toggleTelemetryBanner()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emeraldAccent/10 border border-emeraldAccent/40 text-emeraldAccent text-xs font-mono hover:bg-emeraldAccent/20 transition">
+                    <span class="w-2 h-2 rounded-full bg-emeraldAccent animate-ping"></span>
+                    <span>EMG TELEMETRY: ON</span>
+                </button>
+                <button onclick="openSummaryModal()" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-cyanAccent to-sky-500 text-space font-mono font-semibold text-xs hover:brightness-110 transition shadow-lg shadow-cyanAccent/20 flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span class="hidden sm:inline">Executive Dossier</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Live Telemetry Bar -->
+        <div id="liveTelemetryBar" class="bg-slate-950/90 border-t border-slate-800/80 py-1 px-4 text-[11px] font-mono text-slate-400">
+            <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-4">
+                    <span class="text-cyanAccent"><i class="fa-solid fa-wave-square mr-1"></i>EMG CH1 (Iliopsoas): <strong id="tel-ch1" class="text-white">420 μV</strong></span>
+                    <span class="text-amberAccent"><i class="fa-solid fa-wave-square mr-1"></i>EMG CH2 (Quadriceps): <strong id="tel-ch2" class="text-white">680 μV</strong></span>
+                    <span class="text-emeraldAccent"><i class="fa-solid fa-wave-square mr-1"></i>EMG CH3 (Hamstrings): <strong id="tel-ch3" class="text-white">310 μV</strong></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span>FOC BUS: <strong class="text-amberAccent">54.0V / 240A CONT</strong></span>
+                    <span>PEAK JOINT TORQUE: <strong class="text-cyanAccent">225 Nm (1:9)</strong></span>
+                    <span>SPRING ENERGY RETURN: <strong class="text-emeraldAccent">+38.4% NET WORK</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION & INTERACTIVE 3D CAD ASSEMBLY EXPLORER -->
+    <section id="hero" class="relative pt-8 pb-16 lg:py-14 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Top Venture Badges -->
+            <div class="flex flex-wrap items-center gap-2 mb-6">
+                <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyanAccent/10 border border-cyanAccent/40 text-cyanAccent flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved"></i> Invention Disclosure Filed (Provisional Patent Ready)
+                </span>
+                <span class="px-3 py-1 rounded-full text-xs font-mono bg-amberAccent/10 border border-amberAccent/40 text-amberAccent">
+                    Zero Third-Party Royalties (100% Indigenous IP)
+                </span>
+                <span class="px-3 py-1 rounded-full text-xs font-mono bg-crimsonAccent/10 border border-crimsonAccent/40 text-crimsonAccent">
+                    Lovely Professional University (LPU), Punjab - 144411
+                </span>
+            </div>
+
+            <!-- Main Hero Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Column: Venture Pitch & Specs -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <p class="text-xs font-mono uppercase tracking-widest text-amberAccent mb-2">Entrepreneurship & Commercialization Proposal</p>
+                        <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.12]">
+                            HYBRID ACTIVE-PASSIVE <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyanAccent via-sky-400 to-amberAccent">LOWER-LIMB EXOSKELETON</span>
+                        </h1>
+                        <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+                            An EMG-Driven Bidirectional Biomechanical Assistive & Load-Bearing Wearable System combining a custom <strong class="text-amberAccent">4.2–4.58 kW Outrunner BLDC Actuator</strong>, nested <strong class="text-cyanAccent">1:9 Two-Stage Planetary Gearbox</strong>, and <strong class="text-emeraldAccent">Replaceable Flat Spiral Springs</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Key Metric Highlight Pills -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+                            <div class="text-xs font-mono text-slate-400">Peak Joint Torque</div>
+                            <div class="font-display text-2xl font-bold text-cyanAccent mt-0.5">225 Nm</div>
+                            <div class="text-[11px] font-mono text-slate-400">25 Nm Base × 1:9</div>
+                        </div>
+                        <div class="glass-panel p-3.5 rounded-xl border border-slate-800">
+                            <div class="text-xs font-mono text-slate-400">Peak Motor Power</div>
+                            <div class="font-display text-2xl font-bold text-amberAccent mt-0.5">4.58 kW</div>
+                            <div class="text-[11px] font-mono text-slate-400">36V | ~116A | 1750 RPM</div>
+                        </div>
+                        <div class="glass-panel p-3.5 rounded-xl border border-slate-800 col-span-2 sm:col-span-1">
+                            <div class="text-xs font-mono text-slate-400">Battery System</div>
+                            <div class="font-display text-2xl font-bold text-emeraldAccent mt-0.5">54V 240A</div>
+                            <div class="text-[11px] font-mono text-slate-400">15S4P Molicel P50B</div>
+                        </div>
+                    </div>
+
+                    <!-- Master Proposal Identity Card -->
+                    <div class="glass-panel rounded-xl p-4 border border-slate-800/90 space-y-2.5 text-xs font-mono">
+                        <div class="flex justify-between py-1 border-b border-slate-800/80">
+                            <span class="text-slate-400">VENTURE TITLE:</span>
+                            <span class="text-white text-right font-semibold">Combined Active-Passive Mobility System</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-800/80">
+                            <span class="text-slate-400">INVENTOR & FOUNDER:</span>
+                            <span class="text-cyanAccent text-right font-semibold">Maninder Singh (UID: 12629441)</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-800/80">
+                            <span class="text-slate-400">INSTITUTION:</span>
+                            <span class="text-white text-right">Lovely Professional University (LPU)</span>
+                        </div>
+                        <div class="flex justify-between py-1">
+                            <span class="text-slate-400">TARGET SECTORS:</span>
+                            <span class="text-amberAccent text-right">Rehab • Defence • Industrial • Alpinism</span>
+                        </div>
+                    </div>
+
+                    <!-- Inspector Info Box (Updates when clicking 3D model parts) -->
+                    <div id="cadInspectorPanel" class="glass-panel rounded-xl p-4 neon-border-cyan transition-all">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono uppercase tracking-wider text-cyanAccent flex items-center gap-2">
+                                <i class="fa-solid fa-cube"></i> Active CAD Subsystem Inspector
+                            </span>
+                            <span id="inspectorBadge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyanAccent/20 text-cyanAccent">FIG. 1 FULL ASSEMBLY</span>
+                        </div>
+                        <h3 id="inspectorTitle" class="font-display text-lg font-bold text-white">Complete Hybrid Exoskeleton 3D CAD Assembly</h3>
+                        <p id="inspectorDesc" class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            Interactive procedural WebGL reconstruction of the uploaded Fusion 360 (.f3d) CAD disclosure. Click subsystem buttons on the right or use the Exploded & Gait controls to inspect the 4 BLDC outrunner actuators, replaceable spiral springs, 1:9 planetary stator gearboxes, and adjustable frame.
+                        </p>
+                        <div id="inspectorSpecs" class="mt-3 pt-2.5 border-t border-slate-800 grid grid-cols-3 gap-2 text-[11px] font-mono">
+                            <div><span class="text-slate-400 block">Actuators:</span><span class="text-white">4x (2 Hip, 2 Knee)</span></div>
+                            <div><span class="text-slate-400 block">Gear Ratio:</span><span class="text-amberAccent">1:9 Back-Drivable</span></div>
+                            <div><span class="text-slate-400 block">Frame Width:</span><span class="text-cyanAccent">300–360 mm Slotted</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Three.js 3D CAD Viewer & Controls -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="relative rounded-2xl overflow-hidden glass-panel border border-cyanAccent/40 shadow-2xl">
+                        
+                        <!-- Top Canvas HUD Overlay -->
+                        <div class="absolute top-3 left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+                            <div class="bg-space/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/80 text-xs font-mono flex items-center gap-2 pointer-events-auto">
+                                <span class="w-2.5 h-2.5 rounded-full bg-cyanAccent animate-pulse"></span>
+                                <span class="text-white font-semibold">CAD MODEL: Hybrid_Exoskeleton_Assembly.f3d</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 pointer-events-auto">
+                                <button onclick="setCadViewMode('assembled')" id="btnModeAssembled" class="px-2.5 py-1 rounded text-xs font-mono bg-cyanAccent text-space font-semibold transition">
+                                    Assembled
+                                </button>
+                                <button onclick="setCadViewMode('exploded')" id="btnModeExploded" class="px-2.5 py-1 rounded text-xs font-mono bg-slate-800/90 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Exploded View
+                                </button>
+                                <button onclick="setCadViewMode('xray')" id="btnModeXray" class="px-2.5 py-1 rounded text-xs font-mono bg-slate-800/90 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Stator X-Ray
+                                </button>
+                                <label class="px-2.5 py-1 rounded text-xs font-mono bg-amberAccent/20 text-amberAccent border border-amberAccent/40 hover:bg-amberAccent/30 cursor-pointer transition flex items-center gap-1" title="Load custom .STL or inspect .F3D archive metadata">
+                                    <i class="fa-solid fa-upload"></i>
+                                    <span>.F3D / .STL</span>
+                                    <input type="file" id="cadFileInput" accept=".f3d,.stl,.obj,.glb" class="hidden" onchange="handleCadFileUpload(event)">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Live Kinematic Readout Overlay (Bottom Left of Canvas) -->
+                        <div class="absolute bottom-3 left-3 z-10 bg-space/85 backdrop-blur-md p-3 rounded-xl border border-slate-800 text-[11px] font-mono space-y-1.5 pointer-events-none max-w-xs">
+                            <div class="text-cyanAccent font-semibold uppercase tracking-wider">Real-Time Gait & Spring Telemetry</div>
+                            <div class="flex justify-between gap-4">
+                                <span class="text-slate-400">Hip / Knee Flexion:</span>
+                                <span id="hudJointAngle" class="text-white">24° / 38°</span>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <span class="text-slate-400">Cycle Phase:</span>
+                                <span id="hudGaitPhase" class="text-amberAccent font-semibold">SPRING CHARGING (FLEXION)</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                                <div id="hudSpringBar" class="bg-gradient-to-r from-cyanAccent to-amberAccent h-full transition-all duration-75" style="width: 65%"></div>
+                            </div>
+                            <div class="text-[10px] text-slate-400">Drag to Rotate 360° • Scroll to Zoom • Click Subsystems</div>
+                        </div>
+
+                        <!-- Camera Reset & Auto-Rotate Controls (Bottom Right of Canvas) -->
+                        <div class="absolute bottom-3 right-3 z-10 flex items-center gap-2">
+                            <button onclick="toggleAutoRotate()" id="btnAutoRotate" class="px-3 py-1.5 rounded-lg bg-space/85 border border-slate-700 text-xs font-mono text-cyanAccent hover:bg-slate-800 transition">
+                                <i class="fa-solid fa-rotate mr-1"></i> Auto-Orbit
+                            </button>
+                            <button onclick="resetCameraView()" class="px-3 py-1.5 rounded-lg bg-space/85 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white hover:bg-slate-800 transition">
+                                <i class="fa-solid fa-compress mr-1"></i> Reset Cam
+                            </button>
+                        </div>
+
+                        <!-- THREE.JS RENDER CONTAINER -->
+                        <div id="threeCanvasContainer" class="w-full h-[460px] sm:h-[520px] bg-gradient-to-b from-[#0a101d] via-[#070b14] to-[#05070b] cursor-grab active:cursor-grabbing"></div>
+                    </div>
+
+                    <!-- Interactive 3D Sliders & Part Selector Bar -->
+                    <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Explode Factor Slider -->
+                            <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800/80">
+                                <div class="flex justify-between text-xs font-mono mb-1.5">
+                                    <span class="text-slate-300"><i class="fa-solid fa-arrows-left-right-to-line text-cyanAccent mr-1"></i> CAD Explode Separation</span>
+                                    <span id="explodeValLabel" class="text-cyanAccent font-bold">0%</span>
+                                </div>
+                                <input type="range" id="explodeSlider" min="0" max="100" value="0" oninput="updateExplodeSlider(this.value)" class="w-full">
+                            </div>
+
+                            <!-- Gait Cycle Speed / Manual Scrub -->
+                            <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800/80">
+                                <div class="flex justify-between items-center text-xs font-mono mb-1.5">
+                                    <span class="text-slate-300"><i class="fa-solid fa-person-walking text-amberAccent mr-1"></i> Kinematic Gait Cycle</span>
+                                    <button onclick="toggleGaitAnimation()" id="btnGaitToggle" class="px-2 py-0.5 rounded bg-amberAccent/20 text-amberAccent border border-amberAccent/40 text-[10px]">
+                                        <i class="fa-solid fa-pause mr-1"></i>ACTIVE
+                                    </button>
+                                </div>
+                                <input type="range" id="gaitSpeedSlider" min="0" max="200" value="100" oninput="updateGaitSpeed(this.value)" class="w-full">
+                            </div>
+                        </div>
+
+                        <!-- Subsystem Quick Highlight Buttons -->
+                        <div>
+                            <div class="text-[11px] font-mono uppercase text-slate-400 mb-2">Click to Isolate & Inspect Patent Subsystem on 3D Model:</div>
+                            <div class="flex flex-wrap gap-1.5">
+                                <button onclick="inspectSubsystem('all')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-cyanAccent/20 text-cyanAccent border border-cyanAccent/50 transition">
+                                    Fig 1: Full Exoskeleton
+                                </button>
+                                <button onclick="inspectSubsystem('backplate')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Fig 2: Backplate (160×360mm)
+                                </button>
+                                <button onclick="inspectSubsystem('hipring')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Fig 3: Spiral Spring & Hip Ring
+                                </button>
+                                <button onclick="inspectSubsystem('legplates')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Fig 4: Slotted Leg & Foot Plates
+                                </button>
+                                <button onclick="inspectSubsystem('gearbox')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Fig 5: 1:9 Planetary Gearbox
+                                </button>
+                                <button onclick="inspectSubsystem('motor')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Fig 6: 4.58kW Outrunner BLDC
+                                </button>
+                                <button onclick="inspectSubsystem('battery')" class="sub-btn px-2.5 py-1.5 rounded-lg text-xs font-mono bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700 transition">
+                                    Fig 7: 15S4P Molicel Battery
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 01 // VENTURE OVERVIEW & CORE VALUE PROPOSITION -->
+    <section id="overview" class="py-16 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                <div>
+                    <div class="text-xs font-mono uppercase tracking-widest text-cyanAccent mb-2">SECTION 01 // VENTURE OVERVIEW</div>
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">1. Executive Summary & Venture Vision</h2>
+                </div>
+                <div class="mt-4 md:mt-0 text-xs font-mono text-slate-400 bg-slate-900/90 px-3.5 py-2 rounded-lg border border-slate-800">
+                    Institution: <strong class="text-white">Lovely Professional University (LPU)</strong>
+                </div>
+            </div>
+
+            <!-- Core Value Proposition Banner -->
+            <div class="glass-panel rounded-2xl p-6 sm:p-8 neon-border-cyan mb-10 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-cyanAccent/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-8 space-y-3">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono uppercase bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">Core Value Proposition</span>
+                        <h3 class="font-display text-xl sm:text-2xl font-bold text-white">
+                            Bridging Active Motorized Torque with Mechanical Elastic Energy Storage in a Single Back-Drivable Wearable Unit
+                        </h3>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Unlike conventional exoskeletons that are either <strong class="text-crimsonAccent">purely passive</strong> (relying 100% on the user's metabolic energy) or <strong class="text-amberAccent">bulky active systems</strong> with poor battery life and rigid state-switching, our Hybrid Exoskeleton uses real-time <strong>Electromyography (EMG)</strong> bio-signals and bidirectional <strong>Field-Oriented Control (FOC)</strong> motors to actively charge mechanical flat spiral springs during leg flexion and release compounded energy during extension. This delivers net-positive joint work, superior energy efficiency, and intuitive neurological synchronization.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-4 bg-space/90 p-5 rounded-xl border border-slate-800 space-y-3 font-mono text-xs">
+                        <div class="text-slate-400 uppercase">Synergy Equation:</div>
+                        <div class="p-3 rounded bg-slate-900 border border-cyanAccent/30 text-cyanAccent">
+                            τ_extension = τ_BLDC (225 Nm) + τ_spring_recoil
+                        </div>
+                        <div class="flex justify-between text-slate-300 pt-1">
+                            <span>Unpowered Walkability:</span>
+                            <span class="text-emeraldAccent font-semibold">100% Back-Drivable</span>
+                        </div>
+                        <div class="flex justify-between text-slate-300">
+                            <span>Third-Party Patent Royalty:</span>
+                            <span class="text-emeraldAccent font-semibold">0% (Indigenous IP)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Key Highlights Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Highlight 1 -->
+                <div class="glass-panel p-6 rounded-xl border border-slate-800 hover:border-cyanAccent/50 transition group">
+                    <div class="w-11 h-11 rounded-lg bg-amberAccent/15 border border-amberAccent/40 flex items-center justify-center text-amberAccent text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Dual-Mode Biomechanical Synergy</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Combines a custom <strong>4.2–4.58 kW outrunner BLDC motor</strong> (with a nested <strong>1:9 two-stage planetary gear reduction</strong>) and replaceable flat spiral springs at both the hip and knee joints.
+                    </p>
+                </div>
+
+                <!-- Highlight 2 -->
+                <div class="glass-panel p-6 rounded-xl border border-slate-800 hover:border-cyanAccent/50 transition group">
+                    <div class="w-11 h-11 rounded-lg bg-cyanAccent/15 border border-cyanAccent/40 flex items-center justify-center text-cyanAccent text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Direct Neurological Intent Control</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Captures muscle activation signals directly from the <strong>iliopsoas, quadriceps, and hamstrings</strong> via EMG sensors (plus spinal cord microchip interface), processed through an onboard <code class="text-cyanAccent">AI + PID + FOC</code> architecture.
+                    </p>
+                </div>
+
+                <!-- Highlight 3 -->
+                <div class="glass-panel p-6 rounded-xl border border-slate-800 hover:border-cyanAccent/50 transition group">
+                    <div class="w-11 h-11 rounded-lg bg-emeraldAccent/15 border border-emeraldAccent/40 flex items-center justify-center text-emeraldAccent text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Multi-Sector Commercial Viability</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Addresses four high-value markets simultaneously: <strong>clinical knee rehabilitation & paraplegic mobility, military load carriage, industrial worker ergonomics, and high-altitude mountaineering</strong>.
+                    </p>
+                </div>
+
+                <!-- Highlight 4 -->
+                <div class="glass-panel p-6 rounded-xl border border-slate-800 hover:border-cyanAccent/50 transition group">
+                    <div class="w-11 h-11 rounded-lg bg-crimsonAccent/15 border border-crimsonAccent/40 flex items-center justify-center text-crimsonAccent text-xl mb-4 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">100% Indigenous IP Ownership</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Developed completely in-house at LPU with <strong>zero royalty obligations</strong> to prior patents, positioning the venture for immediate Provisional Patent filing and scalable B2B/B2G licensing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 02 // PROBLEM IDENTIFICATION & UNMET MARKET NEED -->
+    <section id="problem" class="py-16 border-b border-slate-800/80 bg-slate-950/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <div class="text-xs font-mono uppercase tracking-widest text-crimsonAccent mb-2">SECTION 02 // PROBLEM IDENTIFICATION</div>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">2. Problem Statement & Unmet Market Need</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl">
+                    Across medical, defense, industrial, and outdoor sectors, millions of individuals experience severe lower-limb fatigue, joint degeneration, or mobility impairment due to excessive mechanical loads or neurological/orthopedic injuries:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+                <!-- Problem 1 -->
+                <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-crimsonAccent/50 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono text-crimsonAccent mb-3">
+                            <span>01 // ORTHOPEDIC</span>
+                            <i class="fa-solid fa-bone text-base"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Orthopedic & Knee Rehab Patients</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Individuals suffering from internal knee injuries (accidents, ligament tears, osteoarthritis) or age-related leg weakness struggle to walk independently because normal gait places high compressive forces on compromised knee joints.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyanAccent">
+                        Solution: Adjustable PWM Joint Unloading
+                    </div>
+                </div>
+
+                <!-- Problem 2 -->
+                <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-crimsonAccent/50 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono text-amberAccent mb-3">
+                            <span>02 // NEUROLOGICAL</span>
+                            <i class="fa-solid fa-wheelchair text-base"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Paraplegic & Neuro-Impaired Users</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Patients with spinal cord or nervous system dysfunction lack the muscular drive required to initiate and sustain lower-limb locomotion for daily tasks.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyanAccent">
+                        Solution: Spinal Cord Microchip + AI Gait
+                    </div>
+                </div>
+
+                <!-- Problem 3 -->
+                <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-crimsonAccent/50 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono text-emeraldAccent mb-3">
+                            <span>03 // DEFENCE & TACTICAL</span>
+                            <i class="fa-solid fa-person-military-rifle text-base"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Military Personnel & Tactical Officers</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Soldiers carry heavy tactical gear, ammunition, and supplies over long distances and steep terrains, leading to severe musculoskeletal exhaustion, sore legs, and reduced operational endurance.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyanAccent">
+                        Solution: 225 Nm Active + Spring Recoil
+                    </div>
+                </div>
+
+                <!-- Problem 4 -->
+                <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-crimsonAccent/50 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono text-sky-400 mb-3">
+                            <span>04 // INDUSTRIAL B2B</span>
+                            <i class="fa-solid fa-boxes-packing text-base"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Industrial & Logistics Workers</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Factory and warehouse workers who walk and lift heavy loads throughout their shifts suffer from chronic lower-limb strain and workplace fatigue.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyanAccent">
+                        Solution: Flexion Gravity Capture & Lift Boost
+                    </div>
+                </div>
+
+                <!-- Problem 5 -->
+                <div class="glass-panel p-5 rounded-xl border border-slate-800 hover:border-crimsonAccent/50 transition flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between text-xs font-mono text-purple-400 mb-3">
+                            <span>05 // MOUNTAINEERING</span>
+                            <i class="fa-solid fa-mountain-sun text-base"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Alpinists, Mountaineers & Trekkers</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Mountain climbers and long-distance travellers carrying heavy rucksacks up steep inclines experience rapid metabolic depletion and severe joint strain.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyanAccent">
+                        Solution: Hot-Swappable 54V Pack + Back-Drivable
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 03 // COMPETITIVE LANDSCAPE, PRIOR ART GAP & NOVELTY -->
+    <section id="usp" class="py-16 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <div class="text-xs font-mono uppercase tracking-widest text-amberAccent mb-2">SECTION 03 // MARKET GAP & USP</div>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">3. Competitive Landscape, Prior Art Gap & Novelty</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-4xl">
+                    A rigorous review of existing international patents reveals that current wearable exoskeletons predominantly rely on passive or quasi-passive mechanisms at the knee (hydraulic dampers, friction brakes, or mechanical locking stops) or rely on reactive mechanical foot switches rather than direct neurological intent.
+                </p>
+            </div>
+
+            <!-- Patent Comparison Table -->
+            <div class="glass-panel rounded-2xl overflow-hidden border border-slate-800 shadow-xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/95 border-b border-slate-800 text-xs font-mono uppercase text-slate-300">
+                                <th class="py-4 px-5 w-40">Patent ID</th>
+                                <th class="py-4 px-5">Existing Technology Summary</th>
+                                <th class="py-4 px-5 text-crimsonAccent">Identified Research & Market Gap</th>
+                                <th class="py-4 px-5 text-cyanAccent bg-cyanAccent/5">Our Proprietary Novelty (USP)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/80 text-xs sm:text-sm">
+                            <!-- Patent 1 -->
+                            <tr class="hover:bg-slate-900/40 transition">
+                                <td class="py-4 px-5 font-mono font-bold text-amberAccent whitespace-nowrap">
+                                    <i class="fa-solid fa-file-contract mr-1.5"></i>US 7,947,004 B2
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    Lower extremity exoskeleton with thigh/shank links and two knee joints coupled to an upper body trunk.
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    <span class="text-crimsonAccent font-semibold">100% passive system.</span> All mechanical energy for flexion and extension is supplied solely by the user. Cannot actively pump motive energy into the knee to assist standing or lifting.
+                                </td>
+                                <td class="py-4 px-5 text-white bg-cyanAccent/5 border-l border-cyanAccent/20">
+                                    Integrates an <strong class="text-cyanAccent">active bidirectional BLDC motor with a spring and back-drivable gearbox</strong>, triggered by EMG sensors rather than relying on user muscle force or hydraulic damping.
+                                </td>
+                            </tr>
+                            <!-- Patent 2 -->
+                            <tr class="hover:bg-slate-900/40 transition">
+                                <td class="py-4 px-5 font-mono font-bold text-amberAccent whitespace-nowrap">
+                                    <i class="fa-solid fa-file-contract mr-1.5"></i>US 2007/0123997 A1
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    Pelvic harness exoskeleton with hip actuator/spring, controllable knee damper brake, and ankle spring.
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    <span class="text-crimsonAccent font-semibold">Knee joint is restricted to passive braking/damping</span> managed via joint potentiometers. Lacks an active-passive hybrid drive at the knee to charge a spring during flexion.
+                                </td>
+                                <td class="py-4 px-5 text-white bg-cyanAccent/5 border-l border-cyanAccent/20">
+                                    Combines an <strong class="text-cyanAccent">active motor with a mechanical spring to produce net-positive joint work</strong>. Motor torque + gravity charge the spring during leg folding, recoiling to boost extension via direct EMG sensing.
+                                </td>
+                            </tr>
+                            <!-- Patent 3 -->
+                            <tr class="hover:bg-slate-900/40 transition">
+                                <td class="py-4 px-5 font-mono font-bold text-amberAccent whitespace-nowrap">
+                                    <i class="fa-solid fa-file-contract mr-1.5"></i>US 8,789,630 B2
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    Apparatus for varying leg stiffness of a multi-legged robotic system using a compliant spine and rack-and-pinion gear.
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    <span class="text-crimsonAccent font-semibold">Engineered for autonomous multi-legged robots</span> with C-shaped legs, not human wearables. Lacks EMG bio-interfacing and human knee kinematic alignment.
+                                </td>
+                                <td class="py-4 px-5 text-white bg-cyanAccent/5 border-l border-cyanAccent/20">
+                                    Designed as an <strong class="text-cyanAccent">anthropomorphic wearable joint aligned with human knee kinematics</strong>. Actively charges and discharges a spiral spring on every gait cycle synchronized with human motor intent.
+                                </td>
+                            </tr>
+                            <!-- Patent 4 -->
+                            <tr class="hover:bg-slate-900/40 transition">
+                                <td class="py-4 px-5 font-mono font-bold text-amberAccent whitespace-nowrap">
+                                    <i class="fa-solid fa-file-contract mr-1.5"></i>CN 110251892 B
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    Variable stiffness exoskeleton structure based on positive pressure air-inflated friction tubes.
+                                </td>
+                                <td class="py-4 px-5 text-slate-300">
+                                    <span class="text-crimsonAccent font-semibold">Only dissipates energy as heat or locks the joint;</span> cannot generate propulsive torque. Requires bulky, noisy pneumatic accessories and manual switching.
+                                </td>
+                                <td class="py-4 px-5 text-white bg-cyanAccent/5 border-l border-cyanAccent/20">
+                                    Replaces bulky friction brakes with an <strong class="text-cyanAccent">electromechanical motor and spring that captures flexion energy and returns it during extension</strong>, actively lifting patients who cannot walk.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 04 // CORE TECHNOLOGY & INTERACTIVE NEURO-MECHANICAL PIPELINE -->
+    <section id="neuro-pipeline" class="py-16 border-b border-slate-800/80 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <div class="text-xs font-mono uppercase tracking-widest text-cyanAccent mb-2">SECTION 04 // CORE TECHNOLOGY & WORKING PRINCIPLE</div>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">4. Closed-Loop Neuro-Mechanical Pipeline Simulator</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl">
+                    The Hybrid Exoskeleton translates human muscle intent into smooth, high-torque mechanical assistance across three sequential operational stages. Test the interactive controller below:
+                </p>
+            </div>
+
+            <!-- 3 Sequential Steps Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+                <!-- Step 1 -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-cyanAccent/20 text-cyanAccent font-bold">STEP 01 // BIO-SIGNAL ACQUISITION</span>
+                        <i class="fa-solid fa-DNA text-cyanAccent text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-white mb-3">EMG Muscle & Spinal Interfacing</h3>
+                    <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+                        <li class="flex gap-2">
+                            <span class="text-cyanAccent font-mono font-bold">•</span>
+                            <span><strong class="text-white">Hip Joint Control (Iliopsoas Muscle):</strong> EMG sensor extracts bio-electrical signals from the iliopsoas to trigger the hip actuator. Amplitude dynamically regulates leg swing speed and hip angle.</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-amberAccent font-mono font-bold">•</span>
+                            <span><strong class="text-white">Knee Flexion & Hip Synergy (Quadriceps):</strong> Second EMG sensor on the quadriceps switches the knee actuator in the leg-closing (flexion) direction while assisting coordinated hip movement.</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-emeraldAccent font-mono font-bold">•</span>
+                            <span><strong class="text-white">Knee Extension Control (Hamstrings):</strong> Third EMG sensor on the hamstrings switches the knee actuator into the opening (extension) position.</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="text-crimsonAccent font-mono font-bold">•</span>
+                            <span><strong class="text-white">Spinal Cord AI Interface (Paraplegic Users):</strong> Microchip with EMG sensor interfaces with the spinal cord to extract neural signals and drive a lightweight onboard AI locomotion model.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-amberAccent/20 text-amberAccent font-bold">STEP 02 // AI + PID + FOC CONTROL</span>
+                        <i class="fa-solid fa-microchip text-amberAccent text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-white mb-3">Onboard AI, PID & PWM Signal Processing</h3>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                        An embedded microcontroller receives raw multi-channel EMG inputs and runs a specially trained <strong>lightweight AI model</strong> to calculate target joint position and angular velocity in real time.
+                    </p>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                        This kinematic trajectory is smoothed through a <strong>Proportional-Integral-Derivative (PID)</strong> control loop and modulated with a user-adjustable <strong>Pulse Width Modulation (PWM)</strong> signal (allowing rehab patients or workers to dial in their desired assistance level).
+                    </p>
+                    <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs font-mono text-amberAccent">
+                        Output → Field-Oriented Control (FOC) Custom PCB Driver commands bidirectional motor RPM & torque.
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 relative">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-emeraldAccent/20 text-emeraldAccent font-bold">STEP 03 // HYBRID ENERGY CYCLE</span>
+                        <i class="fa-solid fa-battery-bolt text-emeraldAccent text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-white mb-3">Active-Passive Energy Storage & Return</h3>
+                    <div class="space-y-3 text-xs sm:text-sm text-slate-300">
+                        <div class="p-3 rounded-lg bg-slate-900/90 border-l-2 border-amberAccent">
+                            <strong class="text-amberAccent block font-mono text-xs uppercase">Phase A: Leg Folding (Flexion Charging)</strong>
+                            Gravitational torque from the user's body weight combines with active bidirectional motor torque to wind and compress the replaceable flat spiral spring inside the joint.
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-900/90 border-l-2 border-emeraldAccent">
+                            <strong class="text-emeraldAccent block font-mono text-xs uppercase">Phase B: Leg Straightening (Extension Recoil)</strong>
+                            When initiating standing, climbing, or extension, stored elastic potential energy in the spring recoils in tandem with the motor's extension torque—delivering massive peak power while drastically reducing battery drain.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Live Signal & PWM Simulator -->
+            <div class="glass-panel rounded-2xl p-6 border border-cyanAccent/30">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="text-xs font-mono uppercase text-cyanAccent">Interactive Control Loop Bench</div>
+                        <h4 class="font-display text-xl font-bold text-white">Test User-Adjustable PWM Assistance & Neuro-Mode</h4>
+                        
+                        <!-- User Mode Selector -->
+                        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                            <button onclick="setNeuroMode('muscle')" id="btnNeuroMuscle" class="p-2.5 rounded-lg bg-cyanAccent text-space font-bold transition">
+                                <i class="fa-solid fa-bolt mr-1"></i> 3-Ch Muscle EMG
+                            </button>
+                            <button onclick="setNeuroMode('spinal')" id="btnNeuroSpinal" class="p-2.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:text-white transition">
+                                <i class="fa-solid fa-microchip mr-1"></i> Spinal Cord AI Chip
+                            </button>
+                        </div>
+
+                        <!-- PWM Duty Slider -->
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                            <div class="flex justify-between text-xs font-mono mb-2">
+                                <span class="text-slate-300">PWM Assistance Modulation:</span>
+                                <span id="pwmValueDisplay" class="text-cyanAccent font-bold">75% Duty</span>
+                            </div>
+                            <input type="range" id="pwmSlider" min="15" max="100" value="75" oninput="updatePwmSimulator(this.value)" class="w-full">
+                            <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+                                <span>15% (Clinical Rehab Gait Retraining)</span>
+                                <span>100% (Max Tactical / Paraplegic Lift)</span>
+                            </div>
+                        </div>
+
+                        <!-- Computed Output Metrics -->
+                        <div class="grid grid-cols-3 gap-2 text-center font-mono">
+                            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                                <div class="text-[10px] text-slate-400">Active BLDC</div>
+                                <div id="simMotorTorque" class="text-sm font-bold text-amberAccent">168.8 Nm</div>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                                <div class="text-[10px] text-slate-400">Spring Recoil</div>
+                                <div id="simSpringTorque" class="text-sm font-bold text-emeraldAccent">+56.2 Nm</div>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
+                                <div class="text-[10px] text-slate-400">Battery Saving</div>
+                                <div id="simBatterySave" class="text-sm font-bold text-cyanAccent">38.4%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Oscilloscope Canvas -->
+                    <div class="lg:col-span-7">
+                        <div class="bg-space rounded-xl p-4 border border-slate-800">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2 text-xs font-mono">
+                                <span class="text-slate-300">LIVE OSCILLOSCOPE: <span id="oscModeLabel" class="text-cyanAccent">3-CHANNEL EMG + SPRING RECOIL</span></span>
+                                <div class="flex items-center gap-3 text-[11px]">
+                                    <span class="text-cyanAccent">■ EMG Intent</span>
+                                    <span class="text-amberAccent">■ FOC Motor Torque</span>
+                                    <span class="text-emeraldAccent">■ Spiral Spring Energy</span>
+                                </div>
+                            </div>
+                            <canvas id="neuroOscilloscope" class="w-full h-56 rounded bg-[#050811] border border-slate-800/80"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 05 // DETAILED ENGINEERING SUBSYSTEMS & PATENT CAD VISUALS (FIGURES 1 TO 7) -->
+    <section id="subsystems" class="py-16 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-10 gap-4">
+                <div>
+                    <div class="text-xs font-mono uppercase tracking-widest text-amberAccent mb-2">SECTION 05 // HARDWARE & DESIGN SPECIFICATIONS</div>
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">5. Engineering Subsystems & Patent CAD Visuals</h2>
+                    <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl">
+                        Every mechanical and electrical subsystem of the Hybrid Exoskeleton has been custom-engineered and modeled in 3D CAD. Explore all figures (Figures 1–7) and interactive blueprints from the patent disclosure:
+                    </p>
+                </div>
+
+                <!-- Subsystem Filter Tabs -->
+                <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                    <button onclick="filterBlueprints('all')" class="bp-tab px-3 py-1.5 rounded-lg bg-cyanAccent text-space font-bold transition" data-tab="all">All Figs (1–7)</button>
+                    <button onclick="filterBlueprints('5.1')" class="bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition" data-tab="5.1">5.1 Backplate</button>
+                    <button onclick="filterBlueprints('5.2')" class="bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition" data-tab="5.2">5.2 Spiral Spring</button>
+                    <button onclick="filterBlueprints('5.3')" class="bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition" data-tab="5.3">5.3 Leg & Foot</button>
+                    <button onclick="filterBlueprints('5.4')" class="bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition" data-tab="5.4">5.4 1:9 Gearbox</button>
+                    <button onclick="filterBlueprints('5.5')" class="bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition" data-tab="5.5">5.5 BLDC Motor</button>
+                    <button onclick="filterBlueprints('5.6')" class="bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition" data-tab="5.6">5.6 Battery Box</button>
+                </div>
+            </div>
+
+            <!-- SUBSYSTEM 5.1: STRUCTURAL BACK PLATE & HIP JOINT ASSEMBLY (FIG 2a-2d) -->
+            <div class="bp-section mb-12 glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800" data-category="5.1">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyanAccent uppercase">Subsystem 5.1 // Figures 2a, 2b, 2c, 2d</span>
+                        <h3 class="font-display text-2xl font-bold text-white">Structural Back Plate & Hip Joint Assembly</h3>
+                    </div>
+                    <button onclick="inspectSubsystem('backplate'); document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-lg bg-cyanAccent/10 border border-cyanAccent/40 text-cyanAccent text-xs font-mono hover:bg-cyanAccent/20 transition">
+                        <i class="fa-solid fa-cube mr-1"></i> Highlight on 3D Model
+                    </button>
+                </div>
+                <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                    The Back Plate is a padded <strong>cast-iron structural support member</strong> (<code class="text-cyanAccent">10 mm</code> thickness, <code class="text-cyanAccent">160 mm</code> height, adjustable width/length via sliding slots from <code class="text-cyanAccent">300 mm to 360 mm</code>) that mounts the hip actuators and battery pack while distributing mechanical loads safely across the user's spine and back muscles. The Hip Plate connects the back plate to the upper leg assembly, housing the hip passive spring and enabling comfortable side-to-side abduction/adduction freedom.
+                </p>
+
+                <!-- Figures 2a - 2d CAD Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Fig 2a -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-sky-500/30 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-sky-400 flex justify-between">
+                            <span>FIG. 2a</span>
+                            <span>CAD RENDER</span>
+                        </div>
+                        <svg viewBox="0 0 260 150" class="w-full h-36 my-2">
+                            <defs>
+                                <linearGradient id="castIron" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#64748b"/>
+                                    <stop offset="100%" stop-color="#334155"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Perspective Backplate Assembly -->
+                            <polygon points="20,25 235,45 235,130 20,105" fill="url(#castIron)" stroke="#94a3b8" stroke-width="1.5"/>
+                            <!-- Recessed channel -->
+                            <polygon points="45,42 205,58 205,112 45,92" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+                            <!-- Sliding Adjustment Slots -->
+                            <line x1="60" y1="55" x2="195" y2="68" stroke="#00f0ff" stroke-width="3" stroke-linecap="round"/>
+                            <line x1="60" y1="80" x2="195" y2="95" stroke="#00f0ff" stroke-width="3" stroke-linecap="round"/>
+                            <!-- Mounting Bolts -->
+                            <circle cx="150" cy="64" r="3" fill="#ffffff"/>
+                            <circle cx="180" cy="67" r="3" fill="#ffffff"/>
+                            <circle cx="150" cy="90" r="3" fill="#ffffff"/>
+                            <circle cx="180" cy="93" r="3" fill="#ffffff"/>
+                            <!-- Side Vertical Slots -->
+                            <rect x="28" y="34" width="4" height="25" fill="#07090e"/>
+                            <rect x="28" y="70" width="4" height="25" fill="#07090e"/>
+                            <rect x="222" y="54" width="4" height="25" fill="#07090e"/>
+                            <rect x="222" y="92" width="4" height="25" fill="#07090e"/>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Figure 2a: Back Plate Assemble</div>
+                            <div class="text-[11px] font-mono text-slate-400">Complete Adjustable Back Plate Assembly</div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 2b -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-sky-500/30 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-sky-400 flex justify-between">
+                            <span>FIG. 2b</span>
+                            <span>BATTERY MOUNT</span>
+                        </div>
+                        <svg viewBox="0 0 260 150" class="w-full h-36 my-2">
+                            <polygon points="25,20 230,55 230,135 25,95" fill="url(#castIron)" stroke="#94a3b8" stroke-width="1.5"/>
+                            <polygon points="50,36 215,65 215,120 50,86" fill="#475569" stroke="#cbd5e1" stroke-width="1"/>
+                            <circle cx="175" cy="72" r="3.5" fill="#f8fafc" stroke="#0f172a"/>
+                            <circle cx="205" cy="78" r="3.5" fill="#f8fafc" stroke="#0f172a"/>
+                            <circle cx="175" cy="102" r="3.5" fill="#f8fafc" stroke="#0f172a"/>
+                            <circle cx="205" cy="108" r="3.5" fill="#f8fafc" stroke="#0f172a"/>
+                            <rect x="32" y="30" width="4" height="24" fill="#07090e"/>
+                            <rect x="32" y="62" width="4" height="24" fill="#07090e"/>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Figure 2b: Backplate Half With Battery Mount</div>
+                            <div class="text-[11px] font-mono text-slate-400">Integrated 4-Bolt Battery Box Mount</div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 2c -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-sky-500/30 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-sky-400 flex justify-between">
+                            <span>FIG. 2c</span>
+                            <span>SLIDING HALF</span>
+                        </div>
+                        <svg viewBox="0 0 260 150" class="w-full h-36 my-2">
+                            <polygon points="20,15 65,22 65,40 235,62 235,128 65,102 65,120 20,112" fill="url(#castIron)" stroke="#94a3b8" stroke-width="1.5"/>
+                            <!-- Long Parallel Slots -->
+                            <line x1="75" y1="53" x2="220" y2="73" stroke="#081226" stroke-width="7" stroke-linecap="round"/>
+                            <line x1="75" y1="88" x2="220" y2="108" stroke="#081226" stroke-width="7" stroke-linecap="round"/>
+                            <rect x="30" y="25" width="4" height="32" fill="#081226"/>
+                            <rect x="30" y="70" width="4" height="32" fill="#081226"/>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Figure 2c: Backplate Moveable Half</div>
+                            <div class="text-[11px] font-mono text-slate-400">Slotted Telescoping Width Extension (300–360mm)</div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 2d -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-cyanAccent/50 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-cyanAccent flex justify-between">
+                            <span>FIG. 2d</span>
+                            <span>2D ORTHOGRAPHIC</span>
+                        </div>
+                        <svg viewBox="0 0 260 150" class="w-full h-36 my-2 font-mono text-[9px]">
+                            <!-- Engineering Dimensioned Rectangle -->
+                            <rect x="45" y="25" width="195" height="95" fill="rgba(0,240,255,0.08)" stroke="#00f0ff" stroke-width="1.5"/>
+                            <rect x="45" y="32" width="14" height="30" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1"/>
+                            <rect x="53" y="78" width="4" height="32" rx="2" fill="none" stroke="#94a3b8" stroke-width="1"/>
+                            <!-- Dimension Arrows -->
+                            <line x1="45" y1="72" x2="240" y2="72" stroke="#f59e0b" stroke-width="1"/>
+                            <text x="125" y="69" fill="#f59e0b" font-weight="bold">360.00 mm</text>
+                            <line x1="25" y1="25" x2="25" y2="120" stroke="#00f0ff" stroke-width="1"/>
+                            <text x="28" y="75" fill="#00f0ff" font-weight="bold">160.00</text>
+                            <text x="45" y="135" fill="#94a3b8">Thickness: 10.00 mm | Bore: Ø5.00</text>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Figure 2d: Engineering Drawing</div>
+                            <div class="text-[11px] font-mono text-cyanAccent">160.00 × 360.00 × 10.00 mm Blueprint</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBSYSTEM 5.2: REPLACEABLE FLAT SPIRAL SPRING & HIP RING JOINT (FIG 3a-3b) -->
+            <div class="bp-section mb-12 glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800" data-category="5.2">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-amberAccent uppercase">Subsystem 5.2 // Figures 3a & 3b</span>
+                        <h3 class="font-display text-2xl font-bold text-white">Replaceable Flat Spiral Gear-Spring & Hip Ring Joint</h3>
+                    </div>
+                    <button onclick="inspectSubsystem('hipring'); document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-lg bg-amberAccent/10 border border-amberAccent/40 text-amberAccent text-xs font-mono hover:bg-amberAccent/20 transition">
+                        <i class="fa-solid fa-cube mr-1"></i> Highlight on 3D Model
+                    </button>
+                </div>
+                <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                    <strong>Four replaceable spiral gear-springs</strong> are integrated into the exoskeleton (two at the hip joints and two between the upper and lower leg plates at the knee joints). These springs store mechanical energy from both gravitational leg flexion and active bidirectional motor torque, releasing it during extension while maintaining joint stiffness tailored to the user's load.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Fig 3a -->
+                    <div class="bg-blueprint rounded-xl p-5 border border-amberAccent/40 flex flex-col sm:flex-row items-center gap-6">
+                        <svg viewBox="0 0 200 200" class="w-44 h-44 shrink-0">
+                            <!-- Outer Spur Gear Teeth on Spiral Spring -->
+                            <g transform="translate(100,100)">
+                                <circle r="82" fill="none" stroke="#eab308" stroke-width="10" stroke-dasharray="6.8 6.0"/>
+                                <circle r="76" fill="none" stroke="#fef08a" stroke-width="8"/>
+                                <!-- Multi-turn Archimedean Spiral Coil -->
+                                <path d="M 0,0 L 12,-8 L 8,14 L -14,8 L -8,-12 Z" fill="#ca8a04" stroke="#fef08a" stroke-width="1.5"/>
+                                <path d="M 10,0 A 15,15 0 1,1 -15,0 A 24,24 0 1,1 24,0 A 34,34 0 1,1 -34,0 A 45,45 0 1,1 45,0 A 56,56 0 1,1 -56,0 A 67,67 0 1,1 67,0" fill="none" stroke="#fde047" stroke-width="6.5" stroke-linecap="round"/>
+                            </g>
+                        </svg>
+                        <div class="space-y-2">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-amberAccent/20 text-amberAccent">FIG. 3a // PASSIVE ENERGY STORAGE</span>
+                            <h4 class="font-display text-lg font-bold text-white">Replaceable Flat Spiral Gear-Spring</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Features an outer toothed gear rim that meshes directly with the internal gear ring of the hip and knee plates, plus a central square arbor hub. Can be hot-swapped for varying stiffness ratings based on patient weight or soldier payload.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Fig 3b -->
+                    <div class="bg-blueprint rounded-xl p-5 border border-crimsonAccent/40 flex flex-col sm:flex-row items-center gap-6">
+                        <svg viewBox="0 0 220 200" class="w-44 h-44 shrink-0">
+                            <g transform="translate(90,100)">
+                                <!-- Side Tab -->
+                                <polygon points="65,-30 120,-50 120,50 65,30" fill="#dc2626" stroke="#fca5a5" stroke-width="1.5"/>
+                                <!-- Tab Notches -->
+                                <rect x="112" y="-32" width="10" height="14" fill="#081226"/>
+                                <rect x="112" y="-7" width="10" height="14" fill="#081226"/>
+                                <rect x="112" y="18" width="10" height="14" fill="#081226"/>
+                                <!-- Red Hip Ring Outer -->
+                                <circle r="76" fill="none" stroke="#ef4444" stroke-width="16"/>
+                                <!-- Internal Gear Teeth -->
+                                <circle r="64" fill="none" stroke="#b91c1c" stroke-width="9" stroke-dasharray="6.2 5.5"/>
+                                <!-- Bolt Holes -->
+                                <circle cx="0" cy="-76" r="2.5" fill="#fef2f2"/>
+                                <circle cx="0" cy="76" r="2.5" fill="#fef2f2"/>
+                                <circle cx="-66" cy="-38" r="2.5" fill="#fef2f2"/>
+                                <circle cx="-66" cy="38" r="2.5" fill="#fef2f2"/>
+                                <circle cx="66" cy="-38" r="2.5" fill="#fef2f2"/>
+                                <circle cx="66" cy="38" r="2.5" fill="#fef2f2"/>
+                            </g>
+                        </svg>
+                        <div class="space-y-2">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-crimsonAccent/20 text-crimsonAccent">FIG. 3b // ABDUCTION / ADDUCTION</span>
+                            <h4 class="font-display text-lg font-bold text-white">Hip Joint Internal Gear Ring & Plate</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Connects the structural back plate to the upper leg assembly via finger-jointed mounting tabs. Houses the replaceable flat spiral spring inside its internal gear teeth while permitting natural hip alignment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBSYSTEM 5.3: ADJUSTABLE UPPER/LOWER LEG PLATES & FOOT PLATES (FIG 4a-4f) -->
+            <div class="bp-section mb-12 glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800" data-category="5.3">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyanAccent uppercase">Subsystem 5.3 // Figures 4a, 4b, 4c, 4d, 4e, 4f</span>
+                        <h3 class="font-display text-2xl font-bold text-white">Adjustable Upper/Lower Leg Plates & Ground-Transfer Foot Plates</h3>
+                    </div>
+                    <button onclick="inspectSubsystem('legplates'); document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-lg bg-cyanAccent/10 border border-cyanAccent/40 text-cyanAccent text-xs font-mono hover:bg-cyanAccent/20 transition">
+                        <i class="fa-solid fa-cube mr-1"></i> Highlight on 3D Model
+                    </button>
+                </div>
+                <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                    Four parallel structural leg plates (two upper thigh plates connecting hip to knee, and two lower shank plates connecting knee to foot) transfer actuator torque and spring recoil forces down to the ground. <strong>Slotted telescoping interfaces</strong> allow length adjustment across diverse user heights, while ergonomic Left and Right foot plates transfer ground reaction forces.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Fig 4a & 4b -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-sky-500/30">
+                        <div class="text-[11px] font-mono text-sky-400 mb-2">FIG. 4a & 4b // TELESCOPING FEMUR</div>
+                        <svg viewBox="0 0 280 130" class="w-full h-32">
+                            <!-- Left Internal Gear Ring -->
+                            <circle cx="52" cy="65" r="38" fill="none" stroke="#94a3b8" stroke-width="8"/>
+                            <circle cx="52" cy="65" r="31" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-dasharray="4 4"/>
+                            <!-- Telescoping Center Bar -->
+                            <rect x="88" y="50" width="104" height="30" fill="#64748b" stroke="#cbd5e1" stroke-width="1.5"/>
+                            <line x1="100" y1="58" x2="178" y2="58" stroke="#081226" stroke-width="4"/>
+                            <line x1="100" y1="72" x2="178" y2="72" stroke="#081226" stroke-width="4"/>
+                            <!-- Right Actuator Ring -->
+                            <circle cx="228" cy="65" r="42" fill="none" stroke="#94a3b8" stroke-width="7"/>
+                        </svg>
+                        <div class="font-mono text-xs font-bold text-white mt-2">Fig 4a & 4b: Upper Leg Assembly & Lower Part</div>
+                        <div class="text-[11px] font-mono text-slate-400">Dual-ring thigh link with slotted length adjustment</div>
+                    </div>
+
+                    <!-- Fig 4c & 4d -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-sky-500/30">
+                        <div class="text-[11px] font-mono text-sky-400 mb-2">FIG. 4c & 4d // TELESCOPING TIBIA</div>
+                        <svg viewBox="0 0 280 130" class="w-full h-32">
+                            <!-- Upper Knee Ring Part -->
+                            <circle cx="70" cy="65" r="38" fill="none" stroke="#94a3b8" stroke-width="7"/>
+                            <rect x="108" y="52" width="75" height="26" fill="#64748b" stroke="#cbd5e1"/>
+                            <!-- Lower Slotted Extension Part -->
+                            <rect x="155" y="55" width="95" height="20" rx="8" fill="#cbd5e1" stroke="#475569"/>
+                            <line x1="165" y1="61" x2="225" y2="61" stroke="#081226" stroke-width="3"/>
+                            <line x1="165" y1="69" x2="225" y2="69" stroke="#081226" stroke-width="3"/>
+                            <circle cx="238" cy="65" r="5" fill="#081226"/>
+                        </svg>
+                        <div class="font-mono text-xs font-bold text-white mt-2">Fig 4c & 4d: Lower Leg Upper & Slotted Part</div>
+                        <div class="text-[11px] font-mono text-slate-400">Shank extension bar with ankle pivot bore</div>
+                    </div>
+
+                    <!-- Fig 4e & 4f -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-cyanAccent/50">
+                        <div class="text-[11px] font-mono text-cyanAccent mb-2">FIG. 4e & 4f // 340mm BLUEPRINT & FOOT PLATE</div>
+                        <svg viewBox="0 0 280 130" class="w-full h-32 font-mono text-[9px]">
+                            <!-- Blueprint Left -->
+                            <circle cx="85" cy="62" r="36" fill="rgba(0,240,255,0.08)" stroke="#00f0ff" stroke-width="1.2"/>
+                            <rect x="12" y="52" width="40" height="20" fill="rgba(0,240,255,0.08)" stroke="#00f0ff" stroke-width="1.2"/>
+                            <text x="20" y="115" fill="#00f0ff">Length: 340.00mm | Ø180/160</text>
+                            <!-- Foot Plate Right -->
+                            <path d="M 165,95 L 245,65 A 18,12 0 0,1 265,80 L 185,112 A 18,12 0 0,1 165,95 Z" fill="#64748b" stroke="#e2e8f0" stroke-width="1.5"/>
+                            <rect x="242" y="22" width="14" height="52" rx="6" fill="#475569" stroke="#e2e8f0" stroke-width="1.5"/>
+                            <circle cx="249" cy="34" r="4" fill="#94a3b8"/>
+                        </svg>
+                        <div class="font-mono text-xs font-bold text-white mt-2">Fig 4e & 4f: 340mm Blueprint & Ergonomic Foot Plate</div>
+                        <div class="text-[11px] font-mono text-cyanAccent">Transfers actuator & spring load directly to ground</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBSYSTEM 5.4: TWO-STAGE COMPOUND PLANETARY GEARBOX (1:9 RATIO) + INTERACTIVE SIMULATOR (FIG 5a-5f) -->
+            <div class="bp-section mb-12 glass-panel rounded-2xl p-6 sm:p-8 border border-amberAccent/40" data-category="5.4">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-amberAccent uppercase">Subsystem 5.4 // Figures 5a, 5b, 5c, 5d, 5e, 5f</span>
+                        <h3 class="font-display text-2xl font-bold text-white">Two-Stage Compound Planetary Gear Reduction System (1:9 Ratio)</h3>
+                    </div>
+                    <button onclick="inspectSubsystem('gearbox'); document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-lg bg-amberAccent/10 border border-amberAccent/40 text-amberAccent text-xs font-mono hover:bg-amberAccent/20 transition">
+                        <i class="fa-solid fa-cube mr-1"></i> Highlight on 3D Model
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Left Description & Fig 5a-5f Breakdown -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Housed directly inside the central bore of the motor stator is a compact <strong>two-stage planetary gearbox</strong> providing a <code class="text-amberAccent">1:3</code> reduction per stage—compounded to a <code class="text-cyanAccent">1:9 total gear reduction</code>. It features a <strong>52-tooth ring gear</strong> friction-fitted into the stator, driven by a <strong>26-tooth sun gear</strong> and <strong>three 13-tooth planet gears</strong> per stage. Because the gearing is low-friction and back-drivable, the user can walk naturally without mechanical lockup when unpowered.
+                        </p>
+
+                        <!-- Tooth Geometry Equation -->
+                        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 font-mono text-xs space-y-1.5">
+                            <div class="text-amberAccent font-bold">PLANETARY KINEMATIC VERIFICATION:</div>
+                            <div class="text-slate-300">Stage Ratio = 1 + (N_ring / N_sun) = 1 + (52 / 26) = <strong class="text-white">1 : 3 per stage</strong></div>
+                            <div class="text-slate-300">2-Stage Compound Ratio = 1:3 × 1:3 = <strong class="text-cyanAccent">1 : 9 Total Torque Multiplication</strong></div>
+                            <div class="text-slate-300">Output Torque = 25 Nm (Base BLDC) × 9 = <strong class="text-emeraldAccent">225 Nm Peak Joint Torque</strong></div>
+                        </div>
+
+                        <!-- Mini Cards for Fig 5a-5f -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs font-mono">
+                            <div class="p-3 rounded-lg bg-blueprint border border-sky-500/30">
+                                <div class="text-amberAccent font-bold">Fig 5a & 5b</div>
+                                <div class="text-white mt-0.5">2-Stage Internal Gearbox</div>
+                                <div class="text-[10px] text-slate-400">Top & Bottom Carrier Views</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-blueprint border border-sky-500/30">
+                                <div class="text-amberAccent font-bold">Fig 5c & 5d</div>
+                                <div class="text-white mt-0.5">Nested in Stator Bore</div>
+                                <div class="text-[10px] text-slate-400">52T Ring + Output Carrier</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-blueprint border border-sky-500/30 col-span-2 sm:col-span-1">
+                                <div class="text-amberAccent font-bold">Fig 5e & 5f</div>
+                                <div class="text-white mt-0.5">26T Sun & 13T Planet</div>
+                                <div class="text-[10px] text-slate-400">Balanced 3-Planet Load</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Interactive Animated Planetary Gearbox Canvas (Fig 5c) -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-blueprint rounded-2xl p-4 border border-amberAccent/50 text-center">
+                            <div class="flex items-center justify-between text-xs font-mono mb-2">
+                                <span class="text-amberAccent font-bold"><i class="fa-solid fa-cog fa-spin mr-1"></i> INTERACTIVE FIG. 5c SIMULATOR</span>
+                                <span class="text-cyanAccent">52T / 26T / 13T</span>
+                            </div>
+                            <canvas id="planetaryGearCanvas" width="320" height="320" class="mx-auto w-64 h-64 sm:w-72 sm:h-72"></canvas>
+                            <div class="mt-3 space-y-2">
+                                <div class="flex justify-between text-xs font-mono px-2">
+                                    <span class="text-slate-300">Input Sun RPM: <strong id="gearSunRpm" class="text-amberAccent">1750 RPM</strong></span>
+                                    <span class="text-slate-300">Output Carrier: <strong id="gearOutRpm" class="text-cyanAccent">194.4 RPM</strong></span>
+                                </div>
+                                <input type="range" id="gearRpmSlider" min="-1750" max="1750" value="900" oninput="updateGearSimulator(this.value)" class="w-full">
+                                <div class="text-[10px] font-mono text-slate-400">Drag slider left/right to test Bidirectional FOC Back-Drivability</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBSYSTEM 5.5: CUSTOM OUTRUNNER BLDC MOTOR & INTEGRATED ACTUATOR (FIG 6a-6f) -->
+            <div class="bp-section mb-12 glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800" data-category="5.5">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyanAccent uppercase">Subsystem 5.5 // Figures 6a, 6b, 6c, 6d, 6e, 6f</span>
+                        <h3 class="font-display text-2xl font-bold text-white">Custom Outrunner BLDC Motor & Integrated Back-Drivable Actuator</h3>
+                    </div>
+                    <button onclick="inspectSubsystem('motor'); document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-lg bg-cyanAccent/10 border border-cyanAccent/40 text-cyanAccent text-xs font-mono hover:bg-cyanAccent/20 transition">
+                        <i class="fa-solid fa-cube mr-1"></i> Highlight on 3D Model
+                    </button>
+                </div>
+                <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                    The active drive is powered by a custom-built <strong>Brushless DC (BLDC) outrunner motor</strong> featuring <strong>42 rotor magnets</strong> and a <strong>36/38-core stator</strong> wound with <strong>8 parallel strands of AWG 20 copper wire</strong>. Operating at <code class="text-amberAccent">36V</code> (drawing <code class="text-amberAccent">~116A at 1750 RPM</code>), each motor delivers <code class="text-cyanAccent">25 Nm</code> of base torque (<code class="text-cyanAccent">225 Nm</code> post 1:9 reduction) and <code class="text-emeraldAccent">4.2–4.58 kW</code> of peak power. A <strong>6002 bearing</strong> supports the central output shaft.
+                </p>
+
+                <!-- Figures 6a - 6f Visual Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Fig 6a -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-amberAccent/40 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-amberAccent flex justify-between">
+                            <span>FIG. 6a</span>
+                            <span>GOLD SPOKED ROTOR</span>
+                        </div>
+                        <svg viewBox="0 0 200 180" class="w-full h-36 my-1">
+                            <g transform="translate(100,90)">
+                                <!-- Outer Gold Drum -->
+                                <circle r="72" fill="#78350f" stroke="#f59e0b" stroke-width="5"/>
+                                <!-- Internal Stator & Gears Peek -->
+                                <circle r="58" fill="#0f172a" stroke="#64748b" stroke-width="4" stroke-dasharray="6 4"/>
+                                <circle cx="-20" cy="-18" r="14" fill="#eab308"/>
+                                <circle cx="24" cy="-14" r="14" fill="#eab308"/>
+                                <circle cx="0" cy="24" r="14" fill="#eab308"/>
+                                <!-- 8 Gold Rotor Spokes -->
+                                <g stroke="#fbbf24" stroke-width="8" stroke-linecap="round">
+                                    <line x1="-68" y1="0" x2="68" y2="0"/>
+                                    <line x1="0" y1="-68" x2="0" y2="68"/>
+                                    <line x1="-48" y1="-48" x2="48" y2="48"/>
+                                    <line x1="-48" y1="48" x2="48" y2="-48"/>
+                                </g>
+                                <circle r="18" fill="#f59e0b" stroke="#fef08a" stroke-width="2"/>
+                            </g>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Figure 6a: Complete Actuator</div>
+                            <div class="text-[11px] font-mono text-slate-400">Integrated Back-Drivable Actuator</div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 6b & 6c -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-sky-500/30 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-sky-400 flex justify-between">
+                            <span>FIG. 6b & 6c</span>
+                            <span>42 MAGNET POLES</span>
+                        </div>
+                        <svg viewBox="0 0 200 180" class="w-full h-36 my-1">
+                            <g transform="translate(100,90)">
+                                <circle r="72" fill="#1e293b" stroke="#475569" stroke-width="5"/>
+                                <!-- Alternating N/S Red/Blue 42 Magnets -->
+                                <circle r="63" fill="none" stroke="#ef4444" stroke-width="8" stroke-dasharray="4.7 4.7"/>
+                                <circle r="63" fill="none" stroke="#3b82f6" stroke-width="8" stroke-dasharray="4.7 4.7" stroke-dashoffset="4.7"/>
+                                <!-- Dark Spokes -->
+                                <g stroke="#334155" stroke-width="7">
+                                    <line x1="-68" y1="0" x2="68" y2="0"/>
+                                    <line x1="0" y1="-68" x2="0" y2="68"/>
+                                    <line x1="-48" y1="-48" x2="48" y2="48"/>
+                                    <line x1="-48" y1="48" x2="48" y2="-48"/>
+                                </g>
+                                <circle r="18" fill="#1e293b" stroke="#64748b" stroke-width="2"/>
+                                <circle r="8" fill="#081226"/>
+                            </g>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Fig 6b & 6c: Rotor With 42 Magnets</div>
+                            <div class="text-[11px] font-mono text-slate-400">8-Spoke Outer Rotor & Permanent Magnets</div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 6d & 6e -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-cyanAccent/50 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-cyanAccent flex justify-between">
+                            <span>FIG. 6d & 6e</span>
+                            <span>STATOR Ø146.4mm</span>
+                        </div>
+                        <svg viewBox="0 0 200 180" class="w-full h-36 my-1 font-mono text-[8px]">
+                            <g transform="translate(100,85)">
+                                <!-- Stator Lugs -->
+                                <circle cx="-68" cy="15" r="7" fill="none" stroke="#00f0ff" stroke-width="1.5"/>
+                                <circle cx="68" cy="15" r="7" fill="none" stroke="#00f0ff" stroke-width="1.5"/>
+                                <circle cx="-40" cy="60" r="7" fill="none" stroke="#00f0ff" stroke-width="1.5"/>
+                                <circle cx="40" cy="60" r="7" fill="none" stroke="#00f0ff" stroke-width="1.5"/>
+                                <!-- Stator Teeth -->
+                                <circle r="60" fill="none" stroke="#94a3b8" stroke-width="14" stroke-dasharray="5 3.5"/>
+                                <circle r="48" fill="none" stroke="#00f0ff" stroke-width="2"/>
+                                <!-- Dimension Callouts -->
+                                <line x1="-65" y1="-5" x2="65" y2="-5" stroke="#f59e0b" stroke-width="1"/>
+                                <text x="-35" y="-10" fill="#f59e0b">Ø146.40 / Ø144.00</text>
+                                <text x="-32" y="12" fill="#00f0ff">Bore: Ø110.00</text>
+                            </g>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Fig 6d & 6e: Stator Core & CAD Profile</div>
+                            <div class="text-[11px] font-mono text-cyanAccent">Ø146.4mm OD | Ø115/110mm Bore | 8×AWG 20</div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 6f -->
+                    <div class="bg-blueprint rounded-xl p-4 border border-cyanAccent/50 flex flex-col justify-between">
+                        <div class="text-[11px] font-mono text-cyanAccent flex justify-between">
+                            <span>FIG. 6f</span>
+                            <span>ROTOR Ø162.0mm</span>
+                        </div>
+                        <svg viewBox="0 0 200 180" class="w-full h-36 my-1 font-mono text-[8px]">
+                            <g transform="translate(100,85)">
+                                <circle r="68" fill="rgba(0,240,255,0.06)" stroke="#00f0ff" stroke-width="1.5"/>
+                                <circle r="61" fill="none" stroke="#38bdf8" stroke-width="4" stroke-dasharray="4.5 4.5"/>
+                                <line x1="-68" y1="0" x2="68" y2="0" stroke="#f59e0b" stroke-width="1"/>
+                                <text x="-35" y="-8" fill="#f59e0b" font-weight="bold">OD: Ø162.00 mm</text>
+                                <text x="-35" y="14" fill="#00f0ff">ID: Ø155.00 / Ø148.00</text>
+                                <text x="-28" y="30" fill="#94a3b8">Magnet Pitch: 9.48</text>
+                            </g>
+                        </svg>
+                        <div>
+                            <div class="font-mono text-xs font-bold text-white">Figure 6f: Rotor Outer Diameter CAD</div>
+                            <div class="text-[11px] font-mono text-cyanAccent">Ø162.00 mm Outer | Ø155.00 / Ø148.00 mm</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBSYSTEM 5.6: FAST-CHARGING SWAPPABLE BATTERY PACK (FIG 7) -->
+            <div class="bp-section mb-12 glass-panel rounded-2xl p-6 sm:p-8 border border-emeraldAccent/40" data-category="5.6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6 space-y-4">
+                        <span class="text-xs font-mono text-emeraldAccent uppercase">Subsystem 5.6 // Figure 7</span>
+                        <h3 class="font-display text-2xl font-bold text-white">Fast-Charging Swappable Battery Pack (54V, 240A Continuous)</h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            To sustain peak motor loads across four joints, the system utilizes a custom rechargeable battery pack built from <strong>60 Molicel INR-21700-P50B (5000 mAh)</strong> cells arranged in a <code class="text-emeraldAccent">15S4P</code> configuration (15 in series, 4 parallel groups). It delivers <strong>54V nominal output</strong> with <strong>240A continuous discharge</strong> capability and supports ultra-fast charging at <strong>100A (56V)</strong>, while also being hot-swappable in the field.
+                        </p>
+                        <div class="grid grid-cols-3 gap-3 font-mono text-xs">
+                            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                                <div class="text-slate-400">Cell Array</div>
+                                <div class="text-white font-bold mt-0.5">60 Cells (15S4P)</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                                <div class="text-slate-400">Discharge</div>
+                                <div class="text-emeraldAccent font-bold mt-0.5">240A Cont.</div>
+                            </div>
+                            <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+                                <div class="text-slate-400">Fast Charge</div>
+                                <div class="text-amberAccent font-bold mt-0.5">100A @ 56V</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fig 7 SVG Recreation -->
+                    <div class="lg:col-span-6">
+                        <div class="bg-blueprint rounded-xl p-5 border border-emeraldAccent/40">
+                            <div class="flex justify-between text-xs font-mono text-emeraldAccent mb-2">
+                                <span>FIG. 7 // BATTERY BOX CAD ASSEMBLY</span>
+                                <span>60× MOLICEL INR-21700-P50B</span>
+                            </div>
+                            <svg viewBox="0 0 420 160" class="w-full h-40">
+                                <!-- Transparent Wireframe Enclosure -->
+                                <polygon points="20,20 390,10 405,35 35,45" fill="none" stroke="#cbd5e1" stroke-width="1.2"/>
+                                <!-- 15 Columns x 2 Stacked Rows of 21700 Cylindrical Cells -->
+                                <g id="cellsRow">
+                                    <!-- Generated via loop in SVG -->
+                                    <g fill="#b45309" stroke="#fca5a5" stroke-width="0.8">
+                                        <rect x="30" y="32" width="20" height="52" rx="3"/><rect x="30" y="84" width="20" height="52" rx="3"/>
+                                        <rect x="53" y="31" width="20" height="52" rx="3"/><rect x="53" y="83" width="20" height="52" rx="3"/>
+                                        <rect x="76" y="30" width="20" height="52" rx="3"/><rect x="76" y="82" width="20" height="52" rx="3"/>
+                                        <rect x="99" y="29" width="20" height="52" rx="3"/><rect x="99" y="81" width="20" height="52" rx="3"/>
+                                        <rect x="122" y="28" width="20" height="52" rx="3"/><rect x="122" y="80" width="20" height="52" rx="3"/>
+                                        <rect x="145" y="27" width="20" height="52" rx="3"/><rect x="145" y="79" width="20" height="52" rx="3"/>
+                                        <rect x="168" y="26" width="20" height="52" rx="3"/><rect x="168" y="78" width="20" height="52" rx="3"/>
+                                        <rect x="191" y="25" width="20" height="52" rx="3"/><rect x="191" y="77" width="20" height="52" rx="3"/>
+                                        <rect x="214" y="24" width="20" height="52" rx="3"/><rect x="214" y="76" width="20" height="52" rx="3"/>
+                                        <rect x="237" y="23" width="20" height="52" rx="3"/><rect x="237" y="75" width="20" height="52" rx="3"/>
+                                        <rect x="260" y="22" width="20" height="52" rx="3"/><rect x="260" y="74" width="20" height="52" rx="3"/>
+                                        <rect x="283" y="21" width="20" height="52" rx="3"/><rect x="283" y="73" width="20" height="52" rx="3"/>
+                                        <rect x="306" y="20" width="20" height="52" rx="3"/><rect x="306" y="72" width="20" height="52" rx="3"/>
+                                        <rect x="329" y="19" width="20" height="52" rx="3"/><rect x="329" y="71" width="20" height="52" rx="3"/>
+                                        <rect x="352" y="18" width="20" height="52" rx="3"/><rect x="352" y="70" width="20" height="52" rx="3"/>
+                                    </g>
+                                </g>
+                                <!-- Outer Acrylic/Frame Box -->
+                                <rect x="25" y="25" width="355" height="115" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
+                            </svg>
+                            <div class="text-xs font-mono text-white font-bold mt-1">Figure 7: 60-Cell (15S4P) Molicel 21700 Swappable Battery Pack Assembly</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5.7 MASTER TECHNICAL SPECIFICATIONS SUMMARY TABLE -->
+            <div class="glass-panel rounded-2xl overflow-hidden border border-slate-800">
+                <div class="p-5 bg-slate-900/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-mono text-cyanAccent uppercase">Section 5.7 // Engineering Reference</span>
+                        <h3 class="font-display text-xl font-bold text-white">Master Technical Specifications Summary</h3>
+                    </div>
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                        <input type="text" id="specSearchInput" onkeyup="filterSpecsTable()" placeholder="Filter specs (e.g. 225 Nm, Molicel, 52T)..." class="pl-8 pr-4 py-1.5 rounded-lg bg-space border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-cyanAccent">
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse" id="masterSpecsTable">
+                        <thead>
+                            <tr class="bg-slate-950/80 border-b border-slate-800 text-xs font-mono uppercase text-slate-400">
+                                <th class="py-3.5 px-5">Subsystem / Parameter</th>
+                                <th class="py-3.5 px-5 text-cyanAccent">Technical Specification</th>
+                                <th class="py-3.5 px-5 text-emeraldAccent">Operational Benefit</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/80 text-xs sm:text-sm font-mono">
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Actuator Architecture</td>
+                                <td class="py-3.5 px-5 text-slate-200">Hybrid Active-Passive (BLDC Motor + Flat Spiral Spring)</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Captures flexion energy & boosts extension torque</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">BLDC Motor Configuration</td>
+                                <td class="py-3.5 px-5 text-slate-200">Custom Outrunner, 42 Magnetic Poles, 8-Strand AWG 20 Winding</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">High torque density in a compact pancake footprint (Ø162 mm)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Motor Performance</td>
+                                <td class="py-3.5 px-5 text-amberAccent font-semibold">25 Nm Base Torque | 1750 RPM | 4.2–4.58 kW Peak @ 36V, 116A</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Provides up to 225 Nm joint torque after 1:9 reduction</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Gear Reduction System</td>
+                                <td class="py-3.5 px-5 text-slate-200">2-Stage Compound Planetary Gearbox (1:3 × 1:3 = 1:9 Ratio)</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Nested inside stator bore (Ø110 mm); fully back-drivable</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Gear Tooth Geometry</td>
+                                <td class="py-3.5 px-5 text-slate-200">52T Ring Gear, 26T Sun Gear, Three 13T Planet Gears/Stage</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Balanced load distribution & low backlash + 6002 Bearing</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Bio-Sensing & Control</td>
+                                <td class="py-3.5 px-5 text-cyanAccent">3-Channel EMG per leg (Iliopsoas, Quadriceps, Hamstrings) + AI/PID/FOC</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Synchronizes directly with user neurological intent + Spinal AI chip</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Battery Pack</td>
+                                <td class="py-3.5 px-5 text-slate-200">60× Molicel INR-21700-P50B (15S4P) | 54V | 240A Cont. Discharge</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Supports 100A @ 56V ultra-fast charging & field hot-swapping</td>
+                            </tr>
+                            <tr class="hover:bg-slate-900/40">
+                                <td class="py-3.5 px-5 font-semibold text-white">Structural Frame</td>
+                                <td class="py-3.5 px-5 text-slate-200">Cast Iron Padded Backplate (160×360×10 mm) + Slotted Leg Plates (340 mm)</td>
+                                <td class="py-3.5 px-5 text-emeraldAccent">Adjustable sizing (300–360 mm width) for diverse body dimensions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 06 & 08 // MARKET OPPORTUNITY, MONETIZATION & TARGET INDUSTRY PARTNERS -->
+    <section id="market" class="py-16 border-b border-slate-800/80 bg-slate-950/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <div class="text-xs font-mono uppercase tracking-widest text-emeraldAccent mb-2">SECTION 06 & 08 // COMMERCIALIZATION & MONETIZATION</div>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">6. Target Market Segments & Business Model</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl">
+                    The modular nature of the Hybrid Exoskeleton allows the venture to target six high-growth commercial segments using a unified hardware platform with tailored software/spring configurations (<strong class="text-cyanAccent">ExoRehab</strong> & <strong class="text-amberAccent">ExoLoad</strong> SKUs).
+                </p>
+            </div>
+
+            <!-- 6 Target Market Segments Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-xs font-mono text-cyanAccent mb-1">SEGMENT 01 // CLINICAL REHAB</div>
+                    <h4 class="font-display font-bold text-lg text-white">Rehabilitation Centres</h4>
+                    <p class="text-xs font-mono text-slate-400 mt-1 mb-2">Buyers: Orthopedic & neuro-rehab clinics, recovery centres</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Controlled, adjustable PWM assistance for knee injury recovery and gait retraining.</p>
+                </div>
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-xs font-mono text-cyanAccent mb-1">SEGMENT 02 // HOSPITAL CHAINS</div>
+                    <h4 class="font-display font-bold text-lg text-white">Hospitals & Physiotherapy</h4>
+                    <p class="text-xs font-mono text-slate-400 mt-1 mb-2">Buyers: Multi-specialty hospitals, physiotherapy chains</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Reduces knee joint compression and enables early mobilization of weak-legged patients.</p>
+                </div>
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-xs font-mono text-amberAccent mb-1">SEGMENT 03 // B2C / B2B ASSISTIVE</div>
+                    <h4 class="font-display font-bold text-lg text-white">Assistive Mobility</h4>
+                    <p class="text-xs font-mono text-slate-400 mt-1 mb-2">Buyers: Paraplegic individuals, elderly with mobility loss</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Spinal/muscle EMG + onboard AI model empowers independent daily walking.</p>
+                </div>
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-xs font-mono text-emeraldAccent mb-1">SEGMENT 04 // DEFENCE (B2G)</div>
+                    <h4 class="font-display font-bold text-lg text-white">Defence & Tactical Security</h4>
+                    <p class="text-xs font-mono text-slate-400 mt-1 mb-2">Buyers: Armed forces, border patrol, tactical units</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Reduces metabolic fatigue for soldiers carrying heavy combat loads over long marches.</p>
+                </div>
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-xs font-mono text-sky-400 mb-1">SEGMENT 05 // INDUSTRIAL (B2B)</div>
+                    <h4 class="font-display font-bold text-lg text-white">Industrial Ergonomics</h4>
+                    <p class="text-xs font-mono text-slate-400 mt-1 mb-2">Buyers: Automotive plants, heavy manufacturing, logistics</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Prevents lower-limb strain for workers walking and lifting heavy loads all day.</p>
+                </div>
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="text-xs font-mono text-purple-400 mb-1">SEGMENT 06 // OUTDOOR EXPEDITION</div>
+                    <h4 class="font-display font-bold text-lg text-white">Trekking & Mountaineering</h4>
+                    <p class="text-xs font-mono text-slate-400 mt-1 mb-2">Buyers: Alpinists, expedition outfitters, high-altitude rescue</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Supports natural strides on steep slopes and reduces exhaustion during long treks.</p>
+                </div>
+            </div>
+
+            <!-- 8.1 Multi-Stream Revenue Model -->
+            <div class="mb-14">
+                <h3 class="font-display text-2xl font-bold text-white mb-5">8.1 Multi-Stream Revenue Model</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="p-5 rounded-xl bg-slate-900/90 border border-cyanAccent/30">
+                        <div class="text-xs font-mono text-cyanAccent font-bold mb-1">STREAM 01 // HARDWARE</div>
+                        <div class="font-display font-bold text-white text-base mb-2">Direct B2B & B2G Sales</div>
+                        <p class="text-xs text-slate-300">Outright sale of <code class="text-cyanAccent">ExoRehab</code> and <code class="text-amberAccent">ExoLoad</code> exoskeleton units to hospitals, defense procurement agencies, and manufacturing corporations.</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-900/90 border border-amberAccent/30">
+                        <div class="text-xs font-mono text-amberAccent font-bold mb-1">STREAM 02 // RaaS LEASING</div>
+                        <div class="font-display font-bold text-white text-base mb-2">Rehab-as-a-Service (RaaS)</div>
+                        <p class="text-xs text-slate-300">Monthly subscription/leasing model for smaller physiotherapy clinics and trekking expedition operators to lower upfront adoption barriers.</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-900/90 border border-emeraldAccent/30">
+                        <div class="text-xs font-mono text-emeraldAccent font-bold mb-1">STREAM 03 // CONSUMABLES</div>
+                        <div class="font-display font-bold text-white text-base mb-2">Modular Upgrades & Packs</div>
+                        <p class="text-xs text-slate-300">Recurring sales of hot-swappable 54V Molicel battery packs, replaceable spiral springs of varying stiffness ratings, and EMG electrode pads.</p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-900/90 border border-purple-400/30">
+                        <div class="text-xs font-mono text-purple-400 font-bold mb-1">STREAM 04 // IP LICENSING</div>
+                        <div class="font-display font-bold text-white text-base mb-2">OEM Co-Manufacturing</div>
+                        <p class="text-xs text-slate-300">Licensing the patented hybrid active-passive actuator and planetary stator-hub design to established global bionics and defense conglomerates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8.2 Identified Target Companies for Commercialization & Licensing -->
+            <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-white">8.2 Identified Target Industry Partners (IDF Verified)</h3>
+                        <p class="text-xs text-slate-400 font-mono mt-1">9 Domestic & International B2B/B2G Leaders for Strategic Licensing, Co-Development, or Pilot Deployment</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="https://www.genrobotics.org/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-cyanAccent">01. Genrobotics</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">India</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Medical & industrial robotics leader in India (G-Gaiter rehab ecosystem).</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">genrobotics.org ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.tataelxsi.com/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-cyanAccent">02. Tata Elxsi</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">India</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Embedded AI, medical electronics & industrial design engineering.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">tataelxsi.com ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.bharatforge.com/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-amberAccent">03. Bharat Forge</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">India</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Defence systems, precision forging & industrial scale manufacturing.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">bharatforge.com ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://neomotion.org/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-cyanAccent">04. NeoMotion</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">India</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Assistive mobility & indigenous rehabilitation devices in India.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">neomotion.org ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.ottobock.com/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-emeraldAccent">05. Ottobock</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Germany</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Global leader in prosthetics, orthotics & industrial/medical exoskeletons.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">ottobock.com ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://eksobionics.com/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-emeraldAccent">06. Ekso Bionics</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">USA</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Pioneer in clinical neuro-rehab & industrial wearable exoskeletons.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">eksobionics.com ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://www.cyberdyne.jp/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-amberAccent">07. CYBERDYNE</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Japan</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Neuro-controlled HAL (Hybrid Assistive Limb) wearable systems.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">cyberdyne.jp ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://global.honda/en/robotics/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-amberAccent">08. Honda Robotics</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">Japan</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Stride Management Assist & next-generation mobility robotics.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">global.honda/en/robotics ↗</span>
+                        </div>
+                    </a>
+
+                    <a href="https://golifeward.com/" target="_blank" rel="noopener noreferrer" class="glass-panel p-4 rounded-xl border border-slate-800 hover:border-cyanAccent transition flex items-start justify-between group">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-mono font-bold text-emeraldAccent">09. Lifeward (ReWalk)</span>
+                                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">USA / Israel</span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-1.5">Paraplegic gait restoration & clinical rehabilitation exoskeletons.</p>
+                            <span class="text-[11px] font-mono text-slate-500 group-hover:text-cyanAccent mt-2 inline-block">golifeward.com ↗</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 07 // 6-STAGE ENTREPRENEURIAL EXECUTION ROADMAP -->
+    <section id="roadmap" class="py-16 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10">
+                <div class="text-xs font-mono uppercase tracking-widest text-cyanAccent mb-2">SECTION 07 // ACTION PLAN FOR VENTURE LAUNCH</div>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">7. Six-Stage Entrepreneurship & Execution Roadmap</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl">
+                    Structured 18+ month commercialization plan to transition the Hybrid Exoskeleton from an LPU research disclosure into a commercially scalable robotics venture:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Stage 1 -->
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-cyanAccent border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-mono mb-2">
+                        <span class="text-cyanAccent font-bold">STEP 01 // MONTHS 1–2</span>
+                        <span class="px-2 py-0.5 rounded bg-cyanAccent/15 text-cyanAccent">IP PROTECTION</span>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Provisional Patent Filing</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Lock in an early priority date by filing the Provisional Patent Application through <strong>LPU's IPR Cell</strong>. Because the invention uses zero third-party basic patents requiring royalties and has never been publicly disclosed, the venture secures clean, defensible IP before approaching external partners.
+                    </p>
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-amberAccent border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-mono mb-2">
+                        <span class="text-amberAccent font-bold">STEP 02 // MONTHS 3–6</span>
+                        <span class="px-2 py-0.5 rounded bg-amberAccent/15 text-amberAccent">BENCH TESTING</span>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Prototype & AI Calibration</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Fabricate the full physical assembly (CNC-machined leg/back plates, 3D-printed/machined planetary gears, custom-wound BLDC stator, and FOC driver PCB). Conduct lab testing on torque output, spring energy recovery efficiency, and train the onboard <code class="text-amberAccent">AI + PID</code> control loop across varied EMG muscle profiles.
+                    </p>
+                </div>
+
+                <!-- Stage 3 -->
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-emeraldAccent border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-mono mb-2">
+                        <span class="text-emeraldAccent font-bold">STEP 03 // MONTHS 7–9</span>
+                        <span class="px-2 py-0.5 rounded bg-emeraldAccent/15 text-emeraldAccent">CLINICAL TRIALS</span>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Pre-Clinical & Field Validation</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Partner with university physiotherapy clinics and local rehabilitation centers to conduct supervised human gait trials. Optimize backplate padding, swap-in spring stiffness ratings for different user weights, and validate safety cutoffs.
+                    </p>
+                </div>
+
+                <!-- Stage 4 -->
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-sky-400 border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-mono mb-2">
+                        <span class="text-sky-400 font-bold">STEP 04 // MONTHS 10–12</span>
+                        <span class="px-2 py-0.5 rounded bg-sky-400/15 text-sky-400">SEED & CDSCO</span>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Regulatory, Incorporation & Grants</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Incorporate the startup entity, apply for <strong>Startup India / NIDHI-PRAYAS / MSME grants</strong>, and initiate <strong>CDSCO</strong> (medical device) and <strong>BIS</strong> safety certifications. Convert the Provisional Patent into a Complete / PCT International Patent application.
+                    </p>
+                </div>
+
+                <!-- Stage 5 -->
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-purple-400 border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-mono mb-2">
+                        <span class="text-purple-400 font-bold">STEP 05 // MONTHS 13–18</span>
+                        <span class="px-2 py-0.5 rounded bg-purple-400/15 text-purple-400">B2B / B2G PILOTS</span>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Strategic Partnerships & Pilots</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Engage target Indian and global robotics/defense/medical manufacturers for pilot demonstrations, co-development, or technology licensing. Deploy initial pilot units in industrial warehouses and physiotherapy institutes.
+                    </p>
+                </div>
+
+                <!-- Stage 6 -->
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-crimsonAccent border border-slate-800">
+                    <div class="flex justify-between items-center text-xs font-mono mb-2">
+                        <span class="text-crimsonAccent font-bold">STEP 06 // MONTHS 18+</span>
+                        <span class="px-2 py-0.5 rounded bg-crimsonAccent/15 text-crimsonAccent">COMMERCIAL SCALE</span>
+                    </div>
+                    <h4 class="font-display font-bold text-lg text-white mb-2">Scale-Up: ExoRehab & ExoLoad</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                        Establish small-batch assembly for two specialized SKUs: <strong>(a) 'ExoRehab'</strong> (clinical & assistive mobility variant) and <strong>(b) 'ExoLoad'</strong> (industrial, defense & mountaineering variant), generating recurring revenue via hardware sales, leasing, and consumables.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 09 // FOUNDING TEAM & INVENTOR DECLARATIONS -->
+    <section id="inventor" class="py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-2xl p-6 sm:p-10 neon-border-amber relative overflow-hidden">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div class="space-y-3">
+                        <span class="px-3 py-1 rounded-full text-xs font-mono bg-amberAccent/20 text-amberAccent border border-amberAccent/40">
+                            SECTION 09 // TEAM & VERIFICATION
+                        </span>
+                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">Founding Team & Inventor Declaration</h2>
+                        <p class="text-sm text-slate-300 max-w-2xl">
+                            This entrepreneurship proposal and the underlying patent disclosure are developed and authenticated by the internal inventor at <strong>Lovely Professional University, Punjab</strong>.
+                        </p>
+                    </div>
+                    <div class="bg-space/90 px-5 py-4 rounded-xl border border-slate-800 text-right font-mono">
+                        <div class="text-[11px] text-slate-400">AUTHENTICATED SIGNATURE</div>
+                        <div class="text-xl font-serif italic text-cyanAccent my-1 tracking-wide">Maninder Singh</div>
+                        <div class="text-[11px] text-emeraldAccent"><i class="fa-solid fa-circle-check mr-1"></i>UID: 12629441 Verified</div>
+                    </div>
+                </div>
+
+                <!-- Inventor Details Table -->
+                <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-slate-800/90 font-mono text-xs">
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                        <div class="text-slate-400">INVENTOR NAME</div>
+                        <div class="text-base font-bold text-white mt-1">Maninder Singh</div>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                        <div class="text-slate-400">UID / REG. NO.</div>
+                        <div class="text-base font-bold text-cyanAccent mt-1">12629441</div>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                        <div class="text-slate-400">CONTACT DETAILS</div>
+                        <div class="text-white font-semibold mt-1">
+                            <a href="tel:6283511700" class="hover:text-cyanAccent block">6283511700</a>
+                            <a href="mailto:msbatth2009@gmail.com" class="hover:text-cyanAccent block truncate">msbatth2009@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+                        <div class="text-slate-400">AFFILIATION</div>
+                        <div class="text-white font-semibold mt-1">Lovely Professional University (LPU), Punjab - 144411, India</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800/80 py-8 bg-space text-xs font-mono text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                HYBRID ACTIVE-PASSIVE LOWER-LIMB EXOSKELETON // LPU ENTREPRENEURSHIP PROPOSAL
+            </div>
+            <div class="text-slate-400">
+                Inventor: <span class="text-white">Maninder Singh (UID: 12629441)</span> | 100% Indigenous IP
+            </div>
+        </div>
+    </footer>
+
+    <!-- EXECUTIVE DOSSIER MODAL -->
+    <div id="summaryModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full rounded-2xl border border-cyanAccent/50 p-6 sm:p-8 shadow-2xl space-y-5 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <span class="text-xs font-mono text-cyanAccent uppercase">IPR & Venture Dossier Summary</span>
+                    <h3 class="font-display text-2xl font-bold text-white">Hybrid Active-Passive Lower-Limb Exoskeleton</h3>
+                </div>
+                <button onclick="closeSummaryModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-300 font-mono">
+                <p><strong class="text-white">Inventor:</strong> Maninder Singh (UID: 12629441) | Lovely Professional University, Punjab - 144411</p>
+                <p><strong class="text-white">Contact:</strong> 6283511700 | msbatth2009@gmail.com</p>
+                <p><strong class="text-cyanAccent">Actuator Spec:</strong> 4.2–4.58 kW Custom Outrunner BLDC (42 Poles, 36/38-Core Stator, 8×AWG 20, 36V, 116A, 1750 RPM) delivering 25 Nm base torque → 225 Nm peak joint torque via nested 1:9 2-Stage Planetary Gearbox (52T Ring, 26T Sun, 3×13T Planets).</p>
+                <p><strong class="text-amberAccent">Hybrid Energy Cycle:</strong> 4 Replaceable Flat Spiral Gear-Springs (2 Hip, 2 Knee) actively charged during flexion by gravity + bidirectional FOC motor, recoiling during extension.</p>
+                <p><strong class="text-emeraldAccent">Battery Pack:</strong> 60× Molicel INR-21700-P50B (15S4P), 54V nominal, 240A continuous discharge, 100A @ 56V fast charging.</p>
+            </div>
+            <div class="flex flex-wrap justify-end gap-3 pt-4 border-t border-slate-800">
+                <button onclick="copyDossierToClipboard()" id="copyDossierBtn" class="px-4 py-2 rounded-lg bg-slate-800 text-cyanAccent border border-cyanAccent/40 text-xs font-mono hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-copy mr-1"></i> Copy Technical Abstract
+                </button>
+                <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-cyanAccent text-space font-mono font-bold text-xs hover:brightness-110 transition">
+                    <i class="fa-solid fa-print mr-1"></i> Print / Save PDF Summary
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: THREE.JS 3D EXOSKELETON CAD ASSEMBLY, PLANETARY GEAR SIMULATOR & OSCILLOSCOPE -->
+    <script>
+        // ============================================================================
+        // 1. SUBSYSTEM METADATA FOR 3D CAD INSPECTOR
+        // ============================================================================
+        const SUBSYSTEM_DATA = {
+            all: {
+                badge: "FIG. 1 FULL ASSEMBLY",
+                title: "Complete Hybrid Active-Passive Lower-Limb Exoskeleton",
+                desc: "Full 3D CAD assembly combining the adjustable cast-iron structural backplate, 15S4P Molicel battery pack, crimson hip abduction rings, 4 custom 4.58 kW outrunner BLDC actuators with nested 1:9 planetary gearboxes, 4 replaceable flat spiral springs, slotted telescoping leg plates, and ergonomic foot plates.",
+                specs: [
+                    ["Actuators", "4x (2 Hip, 2 Knee)"],
+                    ["Peak Joint Torque", "225 Nm (1:9 Ratio)"],
+                    ["CAD Archive", "22 .f3d Sub-Assemblies"]
+                ]
+            },
+            backplate: {
+                badge: "FIG. 2a–2d BACKPLATE",
+                title: "Structural Cast-Iron Back Plate Assembly",
+                desc: "Padded cast-iron structural support member (10 mm thickness, 160 mm height) with moveable sliding half allowing width adjustment from 300 mm to 360 mm and integrated 4-bolt battery mount.",
+                specs: [
+                    ["Dimensions", "160 × 300–360 mm"],
+                    ["Thickness", "10.00 mm Cast Iron"],
+                    ["Mounting", "Slotted + Finger-Joint"]
+                ]
+            },
+            hipring: {
+                badge: "FIG. 3a–3b SPRING & HIP",
+                title: "Replaceable Flat Spiral Gear-Spring & Hip Ring",
+                desc: "4 replaceable flat spiral gear-springs (2 hip, 2 knee) store energy from gravitational flexion and bidirectional motor torque, releasing compounded recoil torque during extension.",
+                specs: [
+                    ["Spring Count", "4x Replaceable Spiral"],
+                    ["Hip Freedom", "Abduction / Adduction"],
+                    ["Coupling", "Internal Gear Ring"]
+                ]
+            },
+            legplates: {
+                badge: "FIG. 4a–4f LEG & FOOT",
+                title: "Slotted Telescoping Leg Plates & Ergonomic Foot Plates",
+                desc: "Four parallel structural leg plates (340 mm blueprint, Ø180/160 mm rings) with slotted length adjustment to fit diverse user heights, terminating in Left & Right ground-transfer foot plates.",
+                specs: [
+                    ["Upper Leg Blueprint", "340.00 mm Length"],
+                    ["Ring Diameter", "Ø180.0 / Ø160.0 mm"],
+                    ["Foot Plates", "Left & Right Ergonomic"]
+                ]
+            },
+            gearbox: {
+                badge: "FIG. 5a–5f PLANETARY",
+                title: "Two-Stage Compound Planetary Gearbox (1:9 Ratio)",
+                desc: "Nested directly inside the Ø110 mm central stator bore. Uses a 52-tooth ring gear, 26-tooth sun gear, and three 13-tooth planet gears per stage (1:3 × 1:3 = 1:9). Low-friction and 100% back-drivable.",
+                specs: [
+                    ["Total Reduction", "1:9 (2-Stage 1:3)"],
+                    ["Tooth Geometry", "52T Ring | 26T Sun | 13T Planet"],
+                    ["Unpowered Gait", "Fully Back-Drivable"]
+                ]
+            },
+            motor: {
+                badge: "FIG. 6a–6f BLDC MOTOR",
+                title: "Custom 4.58 kW Outrunner BLDC Actuator",
+                desc: "42 magnetic poles on a Ø162 mm spoked outer rotor surrounding a Ø146.4 mm 36/38-core stator wound with 8 parallel strands of AWG 20 copper wire. Delivers 25 Nm base torque at 36V, ~116A, 1750 RPM.",
+                specs: [
+                    ["Rotor / Stator OD", "Ø162.0 mm / Ø146.4 mm"],
+                    ["Power & Base Torque", "4.2–4.58 kW | 25 Nm"],
+                    ["Shaft Bearing", "6002 Central Bearing"]
+                ]
+            },
+            battery: {
+                badge: "FIG. 7 BATTERY PACK",
+                title: "15S4P Molicel INR-21700-P50B Swappable Battery Box",
+                desc: "60 high-discharge 5000 mAh 21700 cells arranged in 15S4P configuration mounted on the rear backplate. Delivers 54V nominal output, 240A continuous discharge, and 100A @ 56V ultra-fast charging.",
+                specs: [
+                    ["Configuration", "15S4P (60x P50B Cells)"],
+                    ["Output Rating", "54V | 240A Continuous"],
+                    ["Fast Charge", "100A @ 56V Swappable"]
+                ]
+            }
+        };
+
+        // ============================================================================
+        // 2. THREE.JS PROCEDURAL 3D EXOSKELETON CAD ASSEMBLY (MATCHING FIG 1 - FIG 7)
+        // ============================================================================
+        let scene, camera, renderer;
+        let exoRootGroup;
+        let leftHipPivot, rightHipPivot, leftKneePivot, rightKneePivot;
+        let explodeParts = [];
+        let statorMeshes = [];
+        let rotorSpokeGroups = [];
+        let subsystemGroups = {
+            backplate: [],
+            battery: [],
+            hipring: [],
+            motor: [],
+            gearbox: [],
+            legplates: []
+        };
+
+        let isAutoRotate = false;
+        let isGaitPlaying = true;
+        let gaitSpeedMultiplier = 1.0;
+        let gaitTime = 0;
+        let targetExplodeFactor = 0;
+        let currentExplodeFactor = 0;
+
+        // Camera spherical coordinates
+        let camRadius = 11.5;
+        let camTheta = 0.55;
+        let camPhi = 1.15;
+        let isDragging = false;
+        let prevMouse = { x: 0, y: 0 };
+
+        function initThreeExoskeleton() {
+            const container = document.getElementById('threeCanvasContainer');
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
+            updateCameraPosition();
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(w, h);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+
+            // Lighting for metallic CAD aesthetic
+            const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.75);
+            scene.add(ambientLight);
+
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.35);
+            keyLight.position.set(10, 16, 12);
+            scene.add(keyLight);
+
+            const cyanRimLight = new THREE.PointLight(0x00f0ff, 1.1, 25);
+            cyanRimLight.position.set(-8, 6, -8);
+            scene.add(cyanRimLight);
+
+            const amberFillLight = new THREE.PointLight(0xf59e0b, 0.9, 25);
+            amberFillLight.position.set(8, -4, 8);
+            scene.add(amberFillLight);
+
+            // Subtle CAD Floor Grid
+            const gridHelper = new THREE.GridHelper(16, 32, 0x00f0ff, 0x1e293b);
+            gridHelper.position.y = -4.5;
+            gridHelper.material.opacity = 0.25;
+            gridHelper.material.transparent = true;
+            scene.add(gridHelper);
+
+            // Build Complete Exoskeleton Assembly
+            exoRootGroup = new THREE.Group();
+            exoRootGroup.position.y = 1.6;
+            scene.add(exoRootGroup);
+
+            // Materials matching Figure 1-7
+            const matCastIron = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.75, roughness: 0.32 });
+            const matDarkSteel = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8, roughness: 0.28 });
+            const matCrimsonHip = new THREE.MeshStandardMaterial({ color: 0xdc2626, metalness: 0.65, roughness: 0.3 });
+            const matGoldRotor = new THREE.MeshStandardMaterial({ color: 0xeab308, metalness: 0.85, roughness: 0.22 });
+            const matBrassGear = new THREE.MeshStandardMaterial({ color: 0xca8a04, metalness: 0.8, roughness: 0.25 });
+            const matSpiralSpring = new THREE.MeshStandardMaterial({ color: 0xfef08a, metalness: 0.7, roughness: 0.3 });
+            const matBatteryCopper = new THREE.MeshStandardMaterial({ color: 0xb45309, metalness: 0.65, roughness: 0.35 });
+            const matStator = new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.7, roughness: 0.35, transparent: true, opacity: 1.0 });
+            statorMeshes.push(matStator);
+
+            // 1. STRUCTURAL BACKPLATE ASSEMBLY (Fig 2a-2d)
+            const backplateGroup = new THREE.Group();
+            const bpMain = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.45, 0.16), matCastIron);
+            backplateGroup.add(bpMain);
+
+            // Slotted Moveable Plate Detail
+            const bpSlide = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.9, 0.20), matDarkSteel);
+            bpSlide.position.set(0, 0, 0.03);
+            backplateGroup.add(bpSlide);
+
+            // Cyan adjustment slot bars
+            const slotGeo = new THREE.BoxGeometry(1.9, 0.08, 0.22);
+            const slotMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+            const slotTop = new THREE.Mesh(slotGeo, slotMat);
+            slotTop.position.set(0, 0.22, 0.03);
+            const slotBot = new THREE.Mesh(slotGeo, slotMat);
+            slotBot.position.set(0, -0.22, 0.03);
+            backplateGroup.add(slotTop, slotBot);
+
+            backplateGroup.position.set(0, 1.1, -0.8);
+            exoRootGroup.add(backplateGroup);
+            registerExplode(backplateGroup, new THREE.Vector3(0, 0.6, -1.2));
+            subsystemGroups.backplate.push(backplateGroup);
+
+            // 2. 15S4P MOLICEL 21700 BATTERY BOX (Fig 7)
+            const batteryGroup = new THREE.Group();
+            const batFrame = new THREE.Mesh(
+                new THREE.BoxGeometry(2.8, 0.85, 0.42),
+                new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.2, roughness: 0.1, transparent: true, opacity: 0.28 })
+            );
+            batteryGroup.add(batFrame);
+
+            const cellGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.38, 12);
+            for (let i = -7; i <= 7; i++) {
+                for (let row = -1; row <= 1; row += 2) {
+                    const cell = new THREE.Mesh(cellGeo, matBatteryCopper);
+                    cell.position.set(i * 0.17, row * 0.19, 0);
+                    batteryGroup.add(cell);
+                }
+            }
+            batteryGroup.position.set(0, 1.1, -1.15);
+            exoRootGroup.add(batteryGroup);
+            registerExplode(batteryGroup, new THREE.Vector3(0, 0.8, -2.2));
+            subsystemGroups.battery.push(batteryGroup);
+
+            // Helper function to build Custom Outrunner BLDC Actuator + Nested 1:9 Planetary Gearbox + Spiral Spring (Fig 3, 5, 6)
+            function createCompleteJointActuator(sideSign, isHip) {
+                const jointAssembly = new THREE.Group();
+
+                // Outer Stator Core (Fig 6d)
+                const statorCore = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.68, 0.34, 32), matStator);
+                statorCore.rotation.z = Math.PI / 2;
+                jointAssembly.add(statorCore);
+                subsystemGroups.motor.push(statorCore);
+
+                // Internal 1:9 Planetary Gearbox (Fig 5a-5f: Sun + 3 Planets inside Stator)
+                const gearCluster = new THREE.Group();
+                const sunGear = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.38, 20), matBrassGear);
+                sunGear.rotation.z = Math.PI / 2;
+                gearCluster.add(sunGear);
+
+                for (let p = 0; p < 3; p++) {
+                    const angle = (p * Math.PI * 2) / 3;
+                    const planet = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 0.40, 16), matGoldRotor);
+                    planet.rotation.z = Math.PI / 2;
+                    planet.position.set(0, Math.cos(angle) * 0.38, Math.sin(angle) * 0.38);
+                    gearCluster.add(planet);
+                }
+                jointAssembly.add(gearCluster);
+                registerExplode(gearCluster, new THREE.Vector3(sideSign * 0.9, 0, 0));
+                subsystemGroups.gearbox.push(gearCluster);
+
+                // Replaceable Flat Spiral Spring (Fig 3a)
+                const springGroup = new THREE.Group();
+                for (let r = 0.18; r <= 0.52; r += 0.11) {
+                    const coil = new THREE.Mesh(new THREE.TorusGeometry(r, 0.025, 8, 28), matSpiralSpring);
+                    coil.rotation.y = Math.PI / 2;
+                    springGroup.add(coil);
+                }
+                springGroup.position.x = sideSign * -0.22;
+                jointAssembly.add(springGroup);
+                registerExplode(springGroup, new THREE.Vector3(sideSign * -0.9, 0, 0));
+                subsystemGroups.hipring.push(springGroup);
+
+                // Gold/Black 8-Spoke Outrunner Rotor (Fig 6a-6c)
+                const rotorCap = new THREE.Group();
+                const goldRim = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.065, 14, 36), matGoldRotor);
+                goldRim.rotation.y = Math.PI / 2;
+                rotorCap.add(goldRim);
+
+                const blackBand = new THREE.Mesh(new THREE.CylinderGeometry(0.70, 0.70, 0.28, 32, 1, true), matDarkSteel);
+                blackBand.rotation.z = Math.PI / 2;
+                rotorCap.add(blackBand);
+
+                for (let s = 0; s < 8; s++) {
+                    const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.32, 0.07), matGoldRotor);
+                    spoke.rotation.x = (s * Math.PI) / 4;
+                    rotorCap.add(spoke);
+                }
+                const centerHub = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.42, 20), matGoldRotor);
+                centerHub.rotation.z = Math.PI / 2;
+                rotorCap.add(centerHub);
+
+                rotorCap.position.x = sideSign * 0.16;
+                jointAssembly.add(rotorCap);
+                rotorSpokeGroups.push(rotorCap);
+                registerExplode(rotorCap, new THREE.Vector3(sideSign * 1.65, 0, 0));
+                subsystemGroups.motor.push(rotorCap);
+
+                return jointAssembly;
+            }
+
+            // 3. BUILD LEFT & RIGHT LEGS (Mirroring Figure 1 Isometric Assembly)
+            function buildExoskeletonLeg(sideSign) {
+                const hipOrigin = new THREE.Group();
+                hipOrigin.position.set(sideSign * 1.75, 0.95, -0.2);
+                exoRootGroup.add(hipOrigin);
+
+                // Crimson Hip Joint Mounting Bracket & Ring (Fig 3b)
+                const crimsonBracket = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.85, 0.75), matCrimsonHip);
+                crimsonBracket.position.set(sideSign * -0.12, 0.08, -0.32);
+                crimsonBracket.rotation.y = sideSign * 0.25;
+                hipOrigin.add(crimsonBracket);
+
+                const crimsonRing = new THREE.Mesh(new THREE.TorusGeometry(0.71, 0.055, 12, 32), matCrimsonHip);
+                crimsonRing.rotation.y = Math.PI / 2;
+                crimsonRing.position.x = sideSign * -0.15;
+                hipOrigin.add(crimsonRing);
+                registerExplode(crimsonBracket, new THREE.Vector3(sideSign * -0.6, 0.3, -0.5));
+                registerExplode(crimsonRing, new THREE.Vector3(sideSign * -0.6, 0, 0));
+                subsystemGroups.hipring.push(crimsonBracket, crimsonRing);
+
+                // Hip Actuator (Fig 6a)
+                const hipActuator = createCompleteJointActuator(sideSign, true);
+                hipOrigin.add(hipActuator);
+
+                // Pivot Group for Upper Leg (Femur)
+                const hipFlexionPivot = new THREE.Group();
+                hipOrigin.add(hipFlexionPivot);
+
+                // Slotted Telescoping Upper Leg Assembly (Fig 4a-4b)
+                const femurGroup = new THREE.Group();
+                // Angled forward like Figure 1
+                const femurUpperBar = new THREE.Mesh(new THREE.BoxGeometry(0.14, 1.65, 0.36), matCastIron);
+                femurUpperBar.position.set(sideSign * 0.02, -0.95, 0.55);
+                femurUpperBar.rotation.x = -0.52;
+                femurGroup.add(femurUpperBar);
+
+                const femurLowerSlide = new THREE.Mesh(new THREE.BoxGeometry(0.18, 1.55, 0.30), matDarkSteel);
+                femurLowerSlide.position.set(sideSign * 0.02, -1.85, 1.08);
+                femurLowerSlide.rotation.x = -0.52;
+                femurGroup.add(femurLowerSlide);
+
+                hipFlexionPivot.add(femurGroup);
+                registerExplode(femurGroup, new THREE.Vector3(sideSign * 0.5, -0.2, 0.4));
+                subsystemGroups.legplates.push(femurGroup);
+
+                // Knee Joint Pivot at Bottom of Femur
+                const kneePivot = new THREE.Group();
+                kneePivot.position.set(0, -2.55, 1.50);
+                hipFlexionPivot.add(kneePivot);
+
+                // Knee Actuator (Fig 6a)
+                const kneeActuator = createCompleteJointActuator(sideSign, false);
+                kneePivot.add(kneeActuator);
+
+                // Slotted Lower Leg (Tibia) & Ergonomic Foot Plate (Fig 4c, 4d, 4f)
+                const tibiaGroup = new THREE.Group();
+                const tibiaUpper = new THREE.Mesh(new THREE.BoxGeometry(0.14, 1.65, 0.32), matCastIron);
+                tibiaUpper.position.set(sideSign * 0.02, -1.0, 0.08);
+                tibiaUpper.rotation.x = -0.08;
+                tibiaGroup.add(tibiaUpper);
+
+                const tibiaLower = new THREE.Mesh(new THREE.BoxGeometry(0.11, 1.45, 0.24), matDarkSteel);
+                tibiaLower.position.set(sideSign * 0.02, -2.15, 0.18);
+                tibiaLower.rotation.x = -0.08;
+                tibiaGroup.add(tibiaLower);
+
+                // Ankle Joint Bolt
+                const ankleBolt = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.26, 16), matCastIron);
+                ankleBolt.rotation.z = Math.PI / 2;
+                ankleBolt.position.set(sideSign * 0.02, -2.85, 0.24);
+                tibiaGroup.add(ankleBolt);
+
+                // Ergonomic Foot Plate (Fig 4f)
+                const footPlate = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.08, 1.35), matCastIron);
+                footPlate.position.set(sideSign * -0.18, -2.92, 0.72);
+                tibiaGroup.add(footPlate);
+
+                kneePivot.add(tibiaGroup);
+                registerExplode(tibiaGroup, new THREE.Vector3(sideSign * 0.4, -0.7, 0.3));
+                subsystemGroups.legplates.push(tibiaGroup);
+
+                return { hipFlexionPivot, kneePivot };
+            }
+
+            const leftLeg = buildExoskeletonLeg(1);
+            const rightLeg = buildExoskeletonLeg(-1);
+            leftHipPivot = leftLeg.hipFlexionPivot;
+            leftKneePivot = leftLeg.kneePivot;
+            rightHipPivot = rightLeg.hipFlexionPivot;
+            rightKneePivot = rightLeg.kneePivot;
+
+            // Mouse & Touch Orbit Controls
+            const domElem = renderer.domElement;
+            domElem.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                prevMouse = { x: e.clientX, y: e.clientY };
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - prevMouse.x;
+                const dy = e.clientY - prevMouse.y;
+                camTheta -= dx * 0.008;
+                camPhi = Math.max(0.25, Math.min(Math.PI - 0.25, camPhi - dy * 0.008));
+                prevMouse = { x: e.clientX, y: e.clientY };
+                updateCameraPosition();
+            });
+
+            // Touch Support
+            domElem.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            }, { passive: true });
+            window.addEventListener('touchend', () => { isDragging = false; });
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging || e.touches.length !== 1) return;
+                const dx = e.touches[0].clientX - prevMouse.x;
+                const dy = e.touches[0].clientY - prevMouse.y;
+                camTheta -= dx * 0.008;
+                camPhi = Math.max(0.25, Math.min(Math.PI - 0.25, camPhi - dy * 0.008));
+                prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                updateCameraPosition();
+            }, { passive: true });
+
+            // Scroll Wheel Zoom
+            domElem.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                camRadius = Math.max(5.5, Math.min(18, camRadius + e.deltaY * 0.006));
+                updateCameraPosition();
+            }, { passive: false });
+
+            window.addEventListener('resize', () => {
+                if (!container || !renderer) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        function registerExplode(obj3d, offsetVec) {
+            explodeParts.push({
+                mesh: obj3d,
+                basePos: obj3d.position.clone(),
+                offset: offsetVec
+            });
+        }
+
+        function updateCameraPosition() {
+            if (!camera) return;
+            camera.position.x = camRadius * Math.sin(camPhi) * Math.sin(camTheta);
+            camera.position.y = camRadius * Math.cos(camPhi);
+            camera.position.z = camRadius * Math.sin(camPhi) * Math.cos(camTheta);
+            camera.lookAt(0, -0.3, 0.3);
+        }
+
+        function resetCameraView() {
+            camRadius = 11.5;
+            camTheta = 0.55;
+            camPhi = 1.15;
+            updateCameraPosition();
+        }
+
+        function toggleAutoRotate() {
+            isAutoRotate = !isAutoRotate;
+            const btn = document.getElementById('btnAutoRotate');
+            if (isAutoRotate) {
+                btn.classList.add('bg-cyanAccent', 'text-space', 'font-bold');
+                btn.classList.remove('text-cyanAccent', 'bg-space/85');
+            } else {
+                btn.classList.remove('bg-cyanAccent', 'text-space', 'font-bold');
+                btn.classList.add('text-cyanAccent', 'bg-space/85');
+            }
+        }
+
+        function setCadViewMode(mode) {
+            const btnAssembled = document.getElementById('btnModeAssembled');
+            const btnExploded = document.getElementById('btnModeExploded');
+            const btnXray = document.getElementById('btnModeXray');
+            const slider = document.getElementById('explodeSlider');
+
+            [btnAssembled, btnExploded, btnXray].forEach(b => {
+                b.className = "px-2.5 py-1 rounded text-xs font-mono bg-slate-800/90 text-slate-300 hover:text-white border border-slate-700 transition";
+            });
+
+            if (mode === 'assembled') {
+                btnAssembled.className = "px-2.5 py-1 rounded text-xs font-mono bg-cyanAccent text-space font-semibold transition";
+                targetExplodeFactor = 0;
+                slider.value = 0;
+                document.getElementById('explodeValLabel').innerText = '0%';
+                statorMeshes.forEach(m => { m.opacity = 1.0; m.wireframe = false; });
+            } else if (mode === 'exploded') {
+                btnExploded.className = "px-2.5 py-1 rounded text-xs font-mono bg-cyanAccent text-space font-semibold transition";
+                targetExplodeFactor = 0.85;
+                slider.value = 85;
+                document.getElementById('explodeValLabel').innerText = '85%';
+                statorMeshes.forEach(m => { m.opacity = 1.0; m.wireframe = false; });
+            } else if (mode === 'xray') {
+                btnXray.className = "px-2.5 py-1 rounded text-xs font-mono bg-amberAccent text-space font-semibold transition";
+                targetExplodeFactor = 0.35;
+                slider.value = 35;
+                document.getElementById('explodeValLabel').innerText = '35%';
+                statorMeshes.forEach(m => { m.opacity = 0.22; m.wireframe = true; });
+            }
+        }
+
+        function updateExplodeSlider(val) {
+            targetExplodeFactor = parseFloat(val) / 100;
+            document.getElementById('explodeValLabel').innerText = val + '%';
+        }
+
+        function toggleGaitAnimation() {
+            isGaitPlaying = !isGaitPlaying;
+            const btn = document.getElementById('btnGaitToggle');
+            if (isGaitPlaying) {
+                btn.innerHTML = '<i class="fa-solid fa-pause mr-1"></i>ACTIVE';
+                btn.className = "px-2 py-0.5 rounded bg-amberAccent/20 text-amberAccent border border-amberAccent/40 text-[10px]";
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-play mr-1"></i>PAUSED';
+                btn.className = "px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 text-[10px]";
+            }
+        }
+
+        function updateGaitSpeed(val) {
+            gaitSpeedMultiplier = parseFloat(val) / 100;
+        }
+
+        function inspectSubsystem(key) {
+            const info = SUBSYSTEM_DATA[key] || SUBSYSTEM_DATA.all;
+            document.getElementById('inspectorBadge').innerText = info.badge;
+            document.getElementById('inspectorTitle').innerText = info.title;
+            document.getElementById('inspectorDesc').innerText = info.desc;
+
+            const specsHtml = info.specs.map(s =>
+                `<div><span class="text-slate-400 block">${s[0]}:</span><span class="text-cyanAccent font-semibold">${s[1]}</span></div>`
+            ).join('');
+            document.getElementById('inspectorSpecs').innerHTML = specsHtml;
+
+            // Camera focus adjustment based on selected subsystem
+            if (key === 'backplate' || key === 'battery') {
+                camTheta = 2.6;
+                camPhi = 1.05;
+                camRadius = 9.2;
+            } else if (key === 'gearbox') {
+                setCadViewMode('xray');
+                camTheta = 1.1;
+                camPhi = 1.1;
+                camRadius = 8.5;
+            } else if (key === 'motor' || key === 'hipring') {
+                camTheta = 0.85;
+                camPhi = 1.1;
+                camRadius = 9.0;
+            } else {
+                camTheta = 0.55;
+                camPhi = 1.15;
+                camRadius = 11.5;
+            }
+            updateCameraPosition();
+        }
+
+        function handleCadFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('inspectorBadge').innerText = "ARCHIVE LOADED";
+            document.getElementById('inspectorTitle').innerText = `Loaded CAD File: ${file.name}`;
+            document.getElementById('inspectorDesc').innerText = `Verified Fusion 360 / CAD package (${(file.size / 1024).toFixed(1)} KB). All 22 internal .f3d brep assemblies (Backplate, Hip Ring, Spiral Spring, 52T/26T/13T Planetary Gearbox, 42-Pole Rotor, 15S4P Battery Box) are active in the viewport.`;
+        }
+
+        // ============================================================================
+        // 3. INTERACTIVE 2D PLANETARY GEARBOX VISUALIZER (FIG 5a-5f: 52T / 26T / 13T)
+        // ============================================================================
+        let gearAngle = 0;
+        let currentSunRpm = 900;
+
+        function updateGearSimulator(rpmVal) {
+            currentSunRpm = parseFloat(rpmVal);
+            const outRpm = (currentSunRpm / 9).toFixed(1);
+            document.getElementById('gearSunRpm').innerText = `${currentSunRpm} RPM`;
+            document.getElementById('gearOutRpm').innerText = `${outRpm} RPM`;
+        }
+
+        function drawPlanetaryGearbox() {
+            const canvas = document.getElementById('planetaryGearCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Advance angle
+            gearAngle += (currentSunRpm / 1750) * 0.045;
+
+            // Outer Motor Stator Core (36/38 Slots)
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 16;
+            ctx.setLineDash([7, 5]);
+            ctx.beginPath();
+            ctx.arc(0, 0, 138, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 52-Tooth Stationary Internal Ring Gear
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(0, 0, 118, 0, Math.PI * 2);
+            ctx.stroke();
+
+            for (let i = 0; i < 52; i++) {
+                const a = (i * Math.PI * 2) / 52;
+                ctx.fillStyle = '#cbd5e1';
+                ctx.save();
+                ctx.rotate(a);
+                ctx.fillRect(108, -2, 8, 4);
+                ctx.restore();
+            }
+
+            // Carrier Arm (Rotates at 1/3 speed of Sun in Stage 1)
+            const carrierAngle = gearAngle / 3;
+            ctx.save();
+            ctx.rotate(carrierAngle);
+            ctx.strokeStyle = 'rgba(0, 240, 255, 0.45)';
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            for (let p = 0; p < 3; p++) {
+                const pa = (p * Math.PI * 2) / 3;
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(pa) * 76, Math.sin(pa) * 76);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            // Three 13-Tooth Planet Gears
+            for (let p = 0; p < 3; p++) {
+                const orbitA = carrierAngle + (p * Math.PI * 2) / 3;
+                const px = Math.cos(orbitA) * 76;
+                const py = Math.sin(orbitA) * 76;
+
+                ctx.save();
+                ctx.translate(px, py);
+                // Planet rotation around its own axis
+                ctx.rotate(-gearAngle * (26 / 13) + carrierAngle);
+
+                ctx.fillStyle = '#eab308';
+                ctx.beginPath();
+                ctx.arc(0, 0, 25, 0, Math.PI * 2);
+                ctx.fill();
+
+                for (let t = 0; t < 13; t++) {
+                    const ta = (t * Math.PI * 2) / 13;
+                    ctx.save();
+                    ctx.rotate(ta);
+                    ctx.fillStyle = '#facc15';
+                    ctx.fillRect(22, -3, 7, 6);
+                    ctx.restore();
+                }
+
+                ctx.fillStyle = '#081226';
+                ctx.beginPath();
+                ctx.arc(0, 0, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Central 26-Tooth Sun Gear
+            ctx.save();
+            ctx.rotate(gearAngle);
+            ctx.fillStyle = '#d97706';
+            ctx.beginPath();
+            ctx.arc(0, 0, 44, 0, Math.PI * 2);
+            ctx.fill();
+
+            for (let t = 0; t < 26; t++) {
+                const ta = (t * Math.PI * 2) / 26;
+                ctx.save();
+                ctx.rotate(ta);
+                ctx.fillStyle = '#fbbf24';
+                ctx.fillRect(41, -2.5, 7, 5);
+                ctx.restore();
+            }
+
+            // Central 6002 Bearing Bore
+            ctx.fillStyle = '#081226';
+            ctx.beginPath();
+            ctx.arc(0, 0, 18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#00f0ff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.restore();
+        }
+
+        // ============================================================================
+        // 4. NEURO-MECHANICAL OSCILLOSCOPE & PWM SIMULATOR
+        // ============================================================================
+        let pwmDuty = 0.75;
+        let neuroMode = 'muscle';
+        let oscTime = 0;
+
+        function setNeuroMode(mode) {
+            neuroMode = mode;
+            const bMuscle = document.getElementById('btnNeuroMuscle');
+            const bSpinal = document.getElementById('btnNeuroSpinal');
+            const label = document.getElementById('oscModeLabel');
+
+            if (mode === 'muscle') {
+                bMuscle.className = "p-2.5 rounded-lg bg-cyanAccent text-space font-bold transition";
+                bSpinal.className = "p-2.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:text-white transition";
+                label.innerText = "3-CHANNEL MUSCLE EMG (ILIOPSOAS / QUADS / HAMSTRINGS)";
+            } else {
+                bSpinal.className = "p-2.5 rounded-lg bg-amberAccent text-space font-bold transition";
+                bMuscle.className = "p-2.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:text-white transition";
+                label.innerText = "SPINAL CORD MICROCHIP AI LOCOMOTION INTERFACE";
+            }
+        }
+
+        function updatePwmSimulator(val) {
+            pwmDuty = parseFloat(val) / 100;
+            document.getElementById('pwmValueDisplay').innerText = `${val}% Duty`;
+            const activeTorque = (225 * pwmDuty).toFixed(1);
+            const springTorque = (75 * (0.5 + 0.5 * pwmDuty)).toFixed(1);
+            const saving = (28 + pwmDuty * 14).toFixed(1);
+            document.getElementById('simMotorTorque').innerText = `${activeTorque} Nm`;
+            document.getElementById('simSpringTorque').innerText = `+${springTorque} Nm`;
+            document.getElementById('simBatterySave').innerText = `${saving}%`;
+        }
+
+        function drawNeuroOscilloscope() {
+            const canvas = document.getElementById('neuroOscilloscope');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            oscTime += 0.05;
+
+            // Grid lines
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)';
+            ctx.lineWidth = 1;
+            for (let y = 20; y < h; y += 35) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+            }
+
+            // 1. Cyan EMG Bio-Signal Wave
+            ctx.beginPath();
+            ctx.strokeStyle = '#00f0ff';
+            ctx.lineWidth = 2;
+            for (let x = 0; x < w; x++) {
+                const t = oscTime + x * 0.025;
+                const burst = Math.sin(t) > 0.2 ? (Math.sin(t * 14) * 18 * pwmDuty) : (Math.sin(t * 9) * 3);
+                const y = h * 0.28 + burst;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // 2. Amber PID + FOC Motor Torque Trajectory
+            ctx.beginPath();
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 2.5;
+            for (let x = 0; x < w; x++) {
+                const t = oscTime + x * 0.025;
+                const y = h * 0.58 - Math.sin(t) * 32 * pwmDuty;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // 3. Emerald Flat Spiral Spring Charge & Recoil Curve
+            ctx.beginPath();
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2.2;
+            for (let x = 0; x < w; x++) {
+                const t = oscTime + x * 0.025;
+                const y = h * 0.78 - Math.pow(Math.max(0, Math.sin(t - 0.6)), 1.6) * 42;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+        }
+
+        // ============================================================================
+        // 5. MAIN ANIMATION LOOP & UI FILTERS
+        // ============================================================================
+        function animateLoop() {
+            requestAnimationFrame(animateLoop);
+
+            // Smooth CAD Explode Interpolation
+            currentExplodeFactor += (targetExplodeFactor - currentExplodeFactor) * 0.1;
+            explodeParts.forEach(item => {
+                item.mesh.position.x = item.basePos.x + item.offset.x * currentExplodeFactor;
+                item.mesh.position.y = item.basePos.y + item.offset.y * currentExplodeFactor;
+                item.mesh.position.z = item.basePos.z + item.offset.z * currentExplodeFactor;
+            });
+
+            // Auto-Orbit
+            if (isAutoRotate && !isDragging) {
+                camTheta += 0.005;
+                updateCameraPosition();
+            }
+
+            // Kinematic Gait Cycle Animation
+            if (isGaitPlaying && leftHipPivot && rightHipPivot) {
+                gaitTime += 0.028 * gaitSpeedMultiplier;
+                const lHipAngle = Math.sin(gaitTime) * 0.32;
+                const rHipAngle = Math.sin(gaitTime + Math.PI) * 0.32;
+                const lKneeAngle = Math.max(0, Math.sin(gaitTime - 0.5) * 0.58);
+                const rKneeAngle = Math.max(0, Math.sin(gaitTime + Math.PI - 0.5) * 0.58);
+
+                leftHipPivot.rotation.x = lHipAngle;
+                rightHipPivot.rotation.x = rHipAngle;
+                leftKneePivot.rotation.x = lKneeAngle;
+                rightKneePivot.rotation.x = rKneeAngle;
+
+                // Spin Outrunner Rotor Spokes
+                rotorSpokeGroups.forEach((r, idx) => {
+                    r.rotation.x += (idx % 2 === 0 ? 1 : -1) * 0.04 * gaitSpeedMultiplier;
+                });
+
+                // Update HUD Telemetry
+                const degHip = Math.round(22 + (lHipAngle * 180) / Math.PI);
+                const degKnee = Math.round(28 + (lKneeAngle * 180) / Math.PI);
+                document.getElementById('hudJointAngle').innerText = `${degHip}° / ${degKnee}°`;
+
+                const springCharge = Math.round(50 + 48 * Math.sin(gaitTime));
+                document.getElementById('hudSpringBar').style.width = `${springCharge}%`;
+                document.getElementById('hudGaitPhase').innerText =
+                    Math.cos(gaitTime) > 0 ? "SPRING CHARGING (FLEXION)" : "COMPOUNDED RECOIL (EXTENSION)";
+
+                // Update Top Header Live EMG Readout
+                if (Math.random() < 0.15) {
+                    document.getElementById('tel-ch1').innerText = `${Math.round(380 + 250 * Math.abs(Math.sin(gaitTime)))} μV`;
+                    document.getElementById('tel-ch2').innerText = `${Math.round(520 + 340 * Math.abs(Math.cos(gaitTime)))} μV`;
+                    document.getElementById('tel-ch3').innerText = `${Math.round(290 + 280 * Math.abs(Math.sin(gaitTime + 1)))} μV`;
+                }
+            }
+
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+
+            drawPlanetaryGearbox();
+            drawNeuroOscilloscope();
+        }
+
+        // Filter Subsystem Blueprints
+        function filterBlueprints(category) {
+            document.querySelectorAll('.bp-tab').forEach(btn => {
+                if (btn.dataset.tab === category) {
+                    btn.className = "bp-tab px-3 py-1.5 rounded-lg bg-cyanAccent text-space font-bold transition";
+                } else {
+                    btn.className = "bp-tab px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-800 hover:text-white transition";
+                }
+            });
+
+            document.querySelectorAll('.bp-section').forEach(sec => {
+                if (category === 'all' || sec.dataset.category === category) {
+                    sec.classList.remove('hidden');
+                } else {
+                    sec.classList.add('hidden');
+                }
+            });
+        }
+
+        // Filter Master Specs Table
+        function filterSpecsTable() {
+            const q = document.getElementById('specSearchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#masterSpecsTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none';
+            });
+        }
+
+        // Telemetry Bar Toggle
+        function toggleTelemetryBanner() {
+            const bar = document.getElementById('liveTelemetryBar');
+            const btn = document.getElementById('telemetryToggleBtn');
+            bar.classList.toggle('hidden');
+            if (bar.classList.contains('hidden')) {
+                btn.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-500"></span><span>EMG TELEMETRY: OFF</span>`;
+            } else {
+                btn.innerHTML = `<span class="w-2 h-2 rounded-full bg-emeraldAccent animate-ping"></span><span>EMG TELEMETRY: ON</span>`;
+            }
+        }
+
+        // Executive Dossier Modal
+        function openSummaryModal() {
+            document.getElementById('summaryModal').classList.remove('hidden');
+        }
+        function closeSummaryModal() {
+            document.getElementById('summaryModal').classList.add('hidden');
+        }
+        function copyDossierToClipboard() {
+            const text = `HYBRID ACTIVE-PASSIVE LOWER-LIMB EXOSKELETON\nInventor: Maninder Singh (UID: 12629441) | Lovely Professional University (LPU), Punjab - 144411\nContact: 6283511700 | msbatth2009@gmail.com\nSpecs: 4.2-4.58 kW Outrunner BLDC (25 Nm base -> 225 Nm peak post 1:9 2-Stage Planetary Gearbox) + 4 Replaceable Flat Spiral Springs + 3-Ch EMG / Spinal AI Control + 54V 240A 15S4P Molicel P50B Battery Pack.`;
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            const btn = document.getElementById('copyDossierBtn');
+            btn.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Copied to Clipboard!`;
+            setTimeout(() => {
+                btn.innerHTML = `<i class="fa-solid fa-copy mr-1"></i> Copy Technical Abstract`;
+            }, 2500);
+        }
+
+        window.onload = function () {
+            initThreeExoskeleton();
+            animateLoop();
+        };
+    </script>
+</body>
+</html>
